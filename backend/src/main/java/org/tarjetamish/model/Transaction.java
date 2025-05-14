@@ -18,4 +18,8 @@ public class Transaction {
     private Date date;
     private User addressee;
     private TypeTransaction typeTransaction;
+    private String rutDestino;
+    private String cuentaDestino;
+    private String rutOrigen;
+    private String cuentaOrigen;
 }
