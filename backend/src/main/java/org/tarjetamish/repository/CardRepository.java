@@ -1,4 +1,4 @@
 package org.tarjetamish.repository;
 
-public class CardRepository {
+public interface CardRepository {
 }

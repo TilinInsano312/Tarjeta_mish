@@ -1,5 +1,6 @@
 package org.tarjetamish.model;
 
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,9 +12,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Account {
+    private Long id;
     private int balance;
     private int accountNumber;
-    private Card card;
-    private List<Transaction> transactions;
-    private User user;
+    private Long idCard;
+    private Long idUser;
 }

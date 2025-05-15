@@ -13,10 +13,10 @@ import java.util.List;
 @NoArgsConstructor
 
 public class User {
+    private Long id;
     private int rut;
     private String name;
-    private String correo;
+    private String email;
     private int pin;
-    private Account account;
-    private List<Contact> contacts;
+    private Long idAccount;
 }

@@ -1,4 +1,4 @@
 package org.tarjetamish.repository;
 
-public class TransactionRepository {
+public interface TransactionRepository {
 }

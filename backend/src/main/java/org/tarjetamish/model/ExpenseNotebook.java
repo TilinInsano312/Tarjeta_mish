@@ -13,5 +13,10 @@ import java.util.List;
 @NoArgsConstructor
 
 public class ExpenseNotebook {
-    private List<Transaction> transactions;
+    private Long id;
+    private String description;
+    private Long idCategoryBook;
+    private Long idTransaction;
+    private Long idUser;
+    private String name;
 }

@@ -4,8 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.tarjetamish.model.enums.TypeTransaction;
-
+import org.tarjetamish.model.enums.*;
 import java.util.Date;
 
 @Getter
@@ -13,13 +12,17 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Transaction {
-    private int id;
+    private Long id;
     private int amount;
     private Date date;
-    private User addressee;
-    private TypeTransaction typeTransaction;
+    private String description;
     private String rutDestino;
     private String cuentaDestino;
     private String rutOrigen;
     private String cuentaOrigen;
+    private TypeTransaction typeTransaction;
+    private Bank bank;
+    private Long idAccount;
+
+
 }
