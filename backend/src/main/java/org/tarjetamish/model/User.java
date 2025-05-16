@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,7 +12,7 @@ import java.util.List;
 
 public class User {
     private Long id;
-    private int rut;
+    private String rut;
     private String name;
     private String email;
     private int pin;

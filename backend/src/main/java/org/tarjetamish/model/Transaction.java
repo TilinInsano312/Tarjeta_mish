@@ -16,13 +16,12 @@ public class Transaction {
     private int amount;
     private Date date;
     private String description;
-    private String rutDestino;
-    private String cuentaDestino;
-    private String rutOrigen;
-    private String cuentaOrigen;
+    private String rutDestination;
+    private String accountDestination;
+    private String rutOrigin;
+    private String accountOrigin;
     private TypeTransaction typeTransaction;
     private Bank bank;
     private Long idAccount;
-
 
 }
