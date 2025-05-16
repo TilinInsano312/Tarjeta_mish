@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
+import org.tarjetamish.model.enums.CategoryBook;
+import org.tarjetamish.model.enums.TypeTransaction;
 
 @Getter
 @Setter
@@ -15,8 +15,8 @@ import java.util.List;
 public class ExpenseNotebook {
     private Long id;
     private String description;
-    private Long idCategoryBook;
-    private Long idTransaction;
+    private CategoryBook categoryBook;
+    private TypeTransaction transaction;
     private Long idUser;
     private String name;
 }
