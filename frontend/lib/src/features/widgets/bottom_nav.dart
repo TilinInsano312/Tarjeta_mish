@@ -31,7 +31,20 @@ class _BottomNav extends State<BottomNav> {
             
           top: 10,
           child: Container(
-            color: AppColors.primary,
+            decoration: const BoxDecoration(
+              color: AppColors.primary,
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.neutralBlack,
+                  blurRadius: 10,
+                  offset: Offset(0, 5),
+                ),
+              ],
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16),
+                topRight: Radius.circular(16),
+              ),
+            ),
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Row(
@@ -73,8 +86,8 @@ class _BottomNav extends State<BottomNav> {
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.primary,
-                        blurRadius: 10,
+                        color: AppColors.neutralBlack.withOpacity(0.3),
+                        blurRadius: 3,
                         offset: const Offset(0, 5),
                       ),
                     ],
@@ -94,7 +107,7 @@ class _BottomNav extends State<BottomNav> {
               Text(
                 'Transferir',
                 style: TextStyle(
-                  color: AppColors.whiteCard,
+                  color: widget.index == 1 ? AppColors.whiteCard : AppColors.iconColor,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
