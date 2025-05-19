@@ -26,7 +26,7 @@ public class UserService {
     }
 
     public UserDTO save(UserDTO userDTO) {
-        User userEntity = new User(userDTO.getId(), userDTO.getRut(), userDTO.getName(), userDTO.getEmail(), userDTO.getPin(), userDTO.getIdAccount());
+        User userEntity = new User(userDTO.getId(), userDTO.getRut(), userDTO.getName(), userDTO.getEmail(), userDTO.getPin());
         return convertToDTO(userRepository.save(userEntity));
     }
 
@@ -35,6 +35,6 @@ public class UserService {
     }
 
     private UserDTO convertToDTO(User user) {
-        return new UserDTO(user.getId(), user.getRut(), user.getName(), user.getEmail(), user.getPin(), user.getIdAccount());
+        return new UserDTO(user.getId(), user.getRut(), user.getName(), user.getEmail(), user.getPin());
     }
 }

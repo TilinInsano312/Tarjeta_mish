@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 
-public record CustomUserDetails(Long id, String rut, String name, String email, int pin) implements UserDetails {
+public record CustomUserDetails(Long id, String rut, String name, String email, String pin) implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));

@@ -29,8 +29,8 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     public User save(User user) {
-        String sql = "INSERT INTO tarjeta_mish.user (rut, name, email, pin, idAccount) VALUES (?, ?, ?, ?, ?)";
-        jdbc.update(sql, new UserRowMapper(), user.getRut(), user.getName(), user.getEmail(), user.getPin(), user.getIdAccount());
+        String sql = "INSERT INTO tarjeta_mish.user (rut, name, email, pin) VALUES (?, ?, ?, ?)";
+        jdbc.update(sql, new UserRowMapper(), user.getRut(), user.getName(), user.getEmail(), user.getPin());
         return user;
     }
 

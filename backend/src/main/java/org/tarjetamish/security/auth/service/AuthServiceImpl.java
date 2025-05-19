@@ -42,7 +42,7 @@ public class AuthServiceImpl implements IAuthService {
         user.setRut(userRegisterDTO.getRut());
         user.setName(userRegisterDTO.getName());
         user.setEmail(userRegisterDTO.getEmail());
-        user.setPin(Integer.parseInt(encodedPassword));
+        user.setPin(encodedPassword);
         userRepository.save(user);
     }
 }

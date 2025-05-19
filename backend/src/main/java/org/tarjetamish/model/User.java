@@ -15,6 +15,5 @@ public class User {
     private String rut;
     private String name;
     private String email;
-    private int pin;
-    private Long idAccount;
+    private String pin;
 }
