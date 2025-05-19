@@ -1,4 +1,5 @@
 package org.tarjetamish.rowMapper;
+
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import org.tarjetamish.model.ExpenseNotebook;
@@ -7,8 +8,9 @@ import org.tarjetamish.model.enums.TypeTransaction;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 @Component
-public class ExpenseNotebookRowMapper implements RowMapper<ExpenseNotebook>{
+public class ExpenseNotebookRowMapper implements RowMapper<ExpenseNotebook> {
     @Override
     public ExpenseNotebook mapRow(ResultSet rs, int rowNum) throws SQLException {
         ExpenseNotebook expenseNotebook = new ExpenseNotebook();

@@ -1,4 +1,5 @@
 package org.tarjetamish.rowMapper;
+
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import org.tarjetamish.model.Contact;
@@ -7,6 +8,7 @@ import org.tarjetamish.model.enums.TypeAccount;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 @Component
 public class ContactRowMapper implements RowMapper<Contact> {
     @Override

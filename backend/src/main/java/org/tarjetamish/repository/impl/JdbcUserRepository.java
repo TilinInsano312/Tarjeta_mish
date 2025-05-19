@@ -30,12 +30,26 @@ public class JdbcUserRepository implements UserRepository {
     @Override
     public User save(User user) {
         String sql = "INSERT INTO tarjeta_mish.user (rut, name, email, pin, idAccount) VALUES (?, ?, ?, ?, ?)";
-        return jdbc.queryForObject(sql, new UserRowMapper(), user.getRut(), user.getName(), user.getEmail(), user.getPin(), user.getIdAccount());
+        jdbc.update(sql, new UserRowMapper(), user.getRut(), user.getName(), user.getEmail(), user.getPin(), user.getIdAccount());
+        return user;
     }
 
     @Override
     public void deleteById(Long id) {
         String sql = "DELETE FROM tarjeta_mish.user WHERE iduser = ?";
         jdbc.update(sql, id);
+    }
+
+    @Override
+    public Optional<User> findByRut(String rut) {
+        String sql = "SELECT * FROM tarjeta_mish.user WHERE rut = ?";
+        return Optional.ofNullable(jdbc.queryForObject(sql, new UserRowMapper(), rut));
+    }
+
+    @Override
+    public boolean existByRut(String rut) {
+        String sql = "SELECT COUNT(*) FROM tarjeta_mish.user WHERE rut = ?";
+        Integer count = jdbc.queryForObject(sql, Integer.class, rut);
+        return count != null && count > 0;
     }
 }

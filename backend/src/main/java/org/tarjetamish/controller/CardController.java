@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.tarjetamish.dto.CardDTO;
 import org.tarjetamish.service.CardService;
-
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/card")

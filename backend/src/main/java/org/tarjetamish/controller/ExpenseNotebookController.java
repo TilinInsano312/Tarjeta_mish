@@ -17,6 +17,7 @@ public class ExpenseNotebookController {
     public List<ExpenseNotebookDTO> list() {
         return expenseNotebookService.list();
     }
+
     @GetMapping("/category/{category}")
     public ExpenseNotebookDTO getExpenseNotebookByCategory(String category) {
         return expenseNotebookService.findByCategory(category).orElse(null);
@@ -26,6 +27,7 @@ public class ExpenseNotebookController {
     public void createExpenseNotebook(ExpenseNotebookDTO expenseNotebookDTO) {
         expenseNotebookService.save(expenseNotebookDTO);
     }
+
     @DeleteMapping
     public void deleteExpenseNotebook(Long id) {
         expenseNotebookService.deleteExpenseNotebook(id);

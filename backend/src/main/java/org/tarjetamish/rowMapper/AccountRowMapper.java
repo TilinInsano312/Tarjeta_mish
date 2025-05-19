@@ -7,6 +7,7 @@ import org.tarjetamish.model.Account;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 @Component
 public class AccountRowMapper implements RowMapper<Account> {
     @Override

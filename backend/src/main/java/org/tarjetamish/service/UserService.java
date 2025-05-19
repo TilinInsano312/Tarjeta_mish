@@ -20,16 +20,20 @@ public class UserService {
                 .map(this::convertToDTO)
                 .toList();
     }
+
     public Optional<UserDTO> findById(Long id) {
         return Optional.of(userRepository.findById(id).map(this::convertToDTO).orElse(null));
     }
+
     public UserDTO save(UserDTO userDTO) {
         User userEntity = new User(userDTO.getId(), userDTO.getRut(), userDTO.getName(), userDTO.getEmail(), userDTO.getPin(), userDTO.getIdAccount());
         return convertToDTO(userRepository.save(userEntity));
     }
+
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
+
     private UserDTO convertToDTO(User user) {
         return new UserDTO(user.getId(), user.getRut(), user.getName(), user.getEmail(), user.getPin(), user.getIdAccount());
     }

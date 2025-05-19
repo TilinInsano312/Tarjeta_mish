@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UserController {
 
-    public UserService userService;
+    private final UserService userService;
 
     @GetMapping
     public List<UserDTO> list() {

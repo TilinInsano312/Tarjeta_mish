@@ -20,16 +20,20 @@ public class ExpenseNotebookService {
                 .map(this::convertToDTO)
                 .toList();
     }
+
     public Optional<ExpenseNotebookDTO> findByCategory(String category) {
         return Optional.ofNullable(expenseNotebookRepository.findByCategory(category).map(this::convertToDTO).orElse(null));
     }
+
     public ExpenseNotebookDTO save(ExpenseNotebookDTO expenseNotebook) {
         ExpenseNotebook expenseNotebookEntity = new ExpenseNotebook(expenseNotebook.getId(), expenseNotebook.getDescription(), expenseNotebook.getCategoryBook(), expenseNotebook.getTransaction(), expenseNotebook.getIdUser(), expenseNotebook.getName());
         return convertToDTO(expenseNotebookRepository.save(expenseNotebookEntity));
     }
+
     public void deleteExpenseNotebook(Long id) {
         expenseNotebookRepository.deleteById(id);
     }
+
     private ExpenseNotebookDTO convertToDTO(ExpenseNotebook expenseNotebook) {
         return new ExpenseNotebookDTO(expenseNotebook.getId(), expenseNotebook.getDescription(), expenseNotebook.getCategoryBook(), expenseNotebook.getTransaction(), expenseNotebook.getIdUser(), expenseNotebook.getName());
     }

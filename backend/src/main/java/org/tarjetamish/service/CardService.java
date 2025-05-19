@@ -1,4 +1,5 @@
 package org.tarjetamish.service;
+
 import org.tarjetamish.dto.CardDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,12 +28,14 @@ public class CardService {
         Card cardEntity = new Card(card.getId(), card.getNumber(), card.getCvv(), card.getExpirationDate(), card.getCardHolderName());
         return convertToDTO(cardRepository.save(cardEntity));
     }
+
     public void deleteCard(Long id) {
         cardRepository.deleteById(id);
     }
+
     private CardDTO convertToDTO(Card card) {
-        return new CardDTO(card.getId(), card.getNumber(),card.getCvv(), card.getExpirationDate(),  card.getCardHolderName());
+        return new CardDTO(card.getId(), card.getNumber(), card.getCvv(), card.getExpirationDate(), card.getCardHolderName());
     }
 
-
+    //Do method to get the data of the card
 }

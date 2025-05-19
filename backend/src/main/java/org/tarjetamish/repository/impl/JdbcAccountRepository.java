@@ -45,4 +45,13 @@ public class JdbcAccountRepository implements AccountRepository {
         jdbc.update(sql, id);
     }
 
+
+    @Override
+    public void updateBalance(Long id, int balance) {
+        String sql = "UPDATE tarjeta_mish.account SET balance = ? WHERE idaccount = ?";
+        jdbc.update(sql, balance, id);
+    }
+
+
+
 }

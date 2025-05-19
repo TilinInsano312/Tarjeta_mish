@@ -1,15 +1,9 @@
 package org.tarjetamish.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.tarjetamish.dto.AccountDTO;
-import org.tarjetamish.model.Account;
-import org.tarjetamish.repository.AccountRepository;
-import org.tarjetamish.rowMapper.AccountRowMapper;
+import org.tarjetamish.dto.BalanceDTO;
 import org.tarjetamish.service.AccountService;
 
 import java.util.List;
@@ -18,7 +12,7 @@ import java.util.List;
 @RequestMapping("/account")
 @AllArgsConstructor
 public class AccountController {
-    private AccountService accountService;
+    private final AccountService accountService;
 
     @GetMapping
     public List<AccountDTO> getAllAccounts() {
@@ -40,9 +34,8 @@ public class AccountController {
     public void deleteAccount(@PathVariable Long id) {
         accountService.deleteAccount(id);
     }
-
-
-
-
-
+    @GetMapping("/balance/{id}")
+    public BalanceDTO balance(@PathVariable Long id) {
+        return accountService.getBalance(id);
+    }
 }

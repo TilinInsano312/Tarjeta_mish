@@ -1,4 +1,5 @@
 package org.tarjetamish.rowMapper;
+
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import org.tarjetamish.model.Transaction;
@@ -7,6 +8,7 @@ import org.tarjetamish.model.enums.TypeTransaction;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 @Component
 public class TransactionRowMapper implements RowMapper<Transaction> {
     @Override

@@ -3,16 +3,12 @@ package org.tarjetamish.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CardDTO {
+public class BalanceDTO {
     private Long id;
-    private int number;
-    private int cvv;
-    private String expirationDate;
-    private String cardHolderName;
+    private int balance;
 }

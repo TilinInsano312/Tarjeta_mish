@@ -7,7 +7,10 @@ import java.util.Optional;
 
 public interface ExpenseNotebookRepository {
     List<ExpenseNotebook> findAll();
+
     Optional<ExpenseNotebook> findByCategory(String category);
+
     ExpenseNotebook save(ExpenseNotebook expenseNotebook);
+
     void deleteById(Long id);
 }

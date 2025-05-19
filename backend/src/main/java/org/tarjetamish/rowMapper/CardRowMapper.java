@@ -3,8 +3,10 @@ package org.tarjetamish.rowMapper;
 import org.springframework.stereotype.Component;
 import org.tarjetamish.model.Card;
 import org.springframework.jdbc.core.RowMapper;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 @Component
 public class CardRowMapper implements RowMapper<Card> {
     @Override

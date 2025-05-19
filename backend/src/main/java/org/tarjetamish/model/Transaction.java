@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.tarjetamish.model.enums.*;
+import org.tarjetamish.model.enums.Bank;
+import org.tarjetamish.model.enums.TypeTransaction;
+
 import java.util.Date;
 
 @Getter
