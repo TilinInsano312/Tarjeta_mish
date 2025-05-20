@@ -19,7 +19,7 @@ public class AccountController {
         return accountService.list();
     }
     @GetMapping("/{id}")
-    public AccountDTO getAccountById(Long id) {
+    public AccountDTO getAccountById(@PathVariable Long id) {
         return accountService.findById(id).orElse(null);
     }
     @GetMapping("/accountnumber/{accountNumber}")

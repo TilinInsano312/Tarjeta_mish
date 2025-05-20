@@ -11,7 +11,7 @@ import java.util.List;
 @RequestMapping("/expensenotebook")
 @AllArgsConstructor
 public class ExpenseNotebookController {
-    ExpenseNotebookService expenseNotebookService;
+    private final ExpenseNotebookService expenseNotebookService;
 
     @GetMapping
     public List<ExpenseNotebookDTO> list() {
@@ -19,17 +19,17 @@ public class ExpenseNotebookController {
     }
 
     @GetMapping("/category/{category}")
-    public ExpenseNotebookDTO getExpenseNotebookByCategory(String category) {
+    public ExpenseNotebookDTO getExpenseNotebookByCategory(@PathVariable String category) {
         return expenseNotebookService.findByCategory(category).orElse(null);
     }
 
     @PostMapping
-    public void createExpenseNotebook(ExpenseNotebookDTO expenseNotebookDTO) {
+    public void createExpenseNotebook(@RequestBody ExpenseNotebookDTO expenseNotebookDTO) {
         expenseNotebookService.save(expenseNotebookDTO);
     }
 
-    @DeleteMapping
-    public void deleteExpenseNotebook(Long id) {
+    @DeleteMapping("/{id}")
+    public void deleteExpenseNotebook(@PathVariable Long id) {
         expenseNotebookService.deleteExpenseNotebook(id);
     }
 }

@@ -11,14 +11,14 @@ import java.util.List;
 @RequestMapping("/card")
 @AllArgsConstructor
 public class CardController {
-    public CardService cardService;
+    private final CardService cardService;
 
     @GetMapping
     public List<CardDTO> getAllCards() {
         return cardService.list();
     }
     @GetMapping("/{id}")
-    public CardDTO getCardById(Long id) {
+    public CardDTO getCardById(@PathVariable Long id) {
         return cardService.findById(id).orElse(null);
     }
     @PostMapping
@@ -26,7 +26,7 @@ public class CardController {
         cardService.save(cardDTO);
     }
     @DeleteMapping("/{id}")
-    public void deleteCard(Long id) {
+    public void deleteCard(@PathVariable Long id) {
         cardService.deleteCard(id);
     }
 }

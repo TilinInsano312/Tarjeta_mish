@@ -13,7 +13,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TransactionService {
 
-    public final TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
 
     public List<TransactionDTO> list() {
         return transactionRepository.findAll().stream()
@@ -26,7 +26,7 @@ public class TransactionService {
     }
 
     public TransactionDTO save(TransactionDTO transactionDTO) {
-        Transaction transactionEntity = new Transaction(transactionDTO.getId(), transactionDTO.getAmount(), transactionDTO.getDate(), transactionDTO.getDescription(), transactionDTO.getRutDestination(), transactionDTO.getAccountDestination(), transactionDTO.getRutOrigin(), transactionDTO.getAccountOrigin(), transactionDTO.getTypeTransaction(), transactionDTO.getBank(), transactionDTO.getIdAccount());
+        Transaction transactionEntity = new Transaction(transactionDTO.getId(), transactionDTO.getAmount(), transactionDTO.getName(), transactionDTO.getDate(), transactionDTO.getDescription(), transactionDTO.getRutDestination(), transactionDTO.getAccountDestination(), transactionDTO.getRutOrigin(), transactionDTO.getAccountOrigin(), transactionDTO.getTypeTransaction(), transactionDTO.getBank(), transactionDTO.getIdAccount());
         return convertToDTO(transactionRepository.save(transactionEntity));
     }
 
@@ -35,6 +35,6 @@ public class TransactionService {
     }
 
     private TransactionDTO convertToDTO(Transaction transaction) {
-        return new TransactionDTO(transaction.getId(), transaction.getAmount(), transaction.getDate(), transaction.getDescription(), transaction.getRutDestination(), transaction.getAccountDestination(), transaction.getRutOrigin(), transaction.getAccountOrigin(), transaction.getTypeTransaction(), transaction.getBank(), transaction.getIdAccount());
+        return new TransactionDTO(transaction.getId(), transaction.getAmount(), transaction.getName(), transaction.getDate(), transaction.getDescription(), transaction.getRutDestination(), transaction.getAccountDestination(), transaction.getRutOrigin(), transaction.getAccountOrigin(), transaction.getTypeTransaction(), transaction.getBank(), transaction.getIdAccount());
     }
 }

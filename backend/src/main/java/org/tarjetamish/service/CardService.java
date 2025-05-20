@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CardService {
-    public final CardRepository cardRepository;
+    private final CardRepository cardRepository;
 
     public List<CardDTO> list() {
         return cardRepository.findAll().stream()

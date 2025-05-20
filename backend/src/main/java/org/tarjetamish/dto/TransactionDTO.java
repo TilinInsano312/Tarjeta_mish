@@ -15,6 +15,7 @@ import java.util.Date;
 public class TransactionDTO {
     private Long id;
     private int amount;
+    private String name;
     private Date date;
     private String description;
     private String rutDestination;

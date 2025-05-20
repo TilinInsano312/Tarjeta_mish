@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ContactService {
-    public final ContactRepository contactRepository;
+    private final ContactRepository contactRepository;
 
     public List<ContactDTO> list() {
         return contactRepository.findAll().stream()
