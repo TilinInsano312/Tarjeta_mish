@@ -19,17 +19,17 @@ public class ExpenseNotebookController {
     }
 
     @GetMapping("/category/{category}")
-    public ExpenseNotebookDTO getExpenseNotebookByCategory(String category) {
+    public ExpenseNotebookDTO getExpenseNotebookByCategory(@PathVariable String category) {
         return expenseNotebookService.findByCategory(category).orElse(null);
     }
 
     @PostMapping
-    public void createExpenseNotebook(ExpenseNotebookDTO expenseNotebookDTO) {
+    public void createExpenseNotebook(@PathVariable ExpenseNotebookDTO expenseNotebookDTO) {
         expenseNotebookService.save(expenseNotebookDTO);
     }
 
     @DeleteMapping
-    public void deleteExpenseNotebook(Long id) {
+    public void deleteExpenseNotebook(@PathVariable Long id) {
         expenseNotebookService.deleteExpenseNotebook(id);
     }
 }

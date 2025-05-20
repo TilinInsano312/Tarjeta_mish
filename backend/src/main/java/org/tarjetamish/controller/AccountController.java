@@ -7,6 +7,7 @@ import org.tarjetamish.dto.BalanceDTO;
 import org.tarjetamish.service.AccountService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/account")
@@ -19,7 +20,7 @@ public class AccountController {
         return accountService.list();
     }
     @GetMapping("/{id}")
-    public AccountDTO getAccountById(Long id) {
+    public AccountDTO getAccountById(@PathVariable Long id) {
         return accountService.findById(id).orElse(null);
     }
     @GetMapping("/accountnumber/{accountNumber}")

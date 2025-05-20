@@ -20,7 +20,7 @@ public class TransactionController {
     }
 
     @GetMapping("/{id}")
-    public TransactionDTO getTransactionById(Long id) {
+    public TransactionDTO getTransactionById(@PathVariable Long id) {
         return transactionService.findById(id).orElse(null);
     }
 
@@ -30,7 +30,7 @@ public class TransactionController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteTransaction(Long id) {
+    public void deleteTransaction(@PathVariable Long id) {
         transactionService.deleteTransaction(id);
     }
 }

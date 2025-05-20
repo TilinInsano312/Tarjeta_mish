@@ -19,11 +19,11 @@ public class ContactController {
         return contactService.list();
     }
     @GetMapping("/name/{name}")
-    public ContactDTO getContactByName(String name) {
+    public ContactDTO getContactByName(@PathVariable String name) {
         return contactService.findByName(name).orElse(null);
     }
     @GetMapping("/alias/{alias}")
-    public ContactDTO getContactByAlias(String alias) {
+    public ContactDTO getContactByAlias(@PathVariable String alias) {
         return contactService.findByAlias(alias).orElse(null);
     }
 
@@ -33,7 +33,7 @@ public class ContactController {
     }
 
     @DeleteMapping
-    public void deleteContact(Long id) {
+    public void deleteContact(@PathVariable Long id) {
         contactService.deleteContact(id);
     }
 
