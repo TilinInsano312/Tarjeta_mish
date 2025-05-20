@@ -8,7 +8,7 @@ class Loginrepository {
 
   Loginrepository({required this.baseUrl});
 
-  Future<LoginResponse> login (String rut, String pin) async {
+  Future<LoginResponse> login (String rut, int pin) async {
     
     final response = await http.post(
       Uri.parse('$baseUrl/login'),
@@ -18,6 +18,9 @@ class Loginrepository {
         'pin': pin,
       }),
     );
+
+  print('Response status: ${response.statusCode}');
+  print('Response body: ${response.body}');
 
     if (response.statusCode == 200){
       return LoginResponse.fromJson(json.decode(response.body));
