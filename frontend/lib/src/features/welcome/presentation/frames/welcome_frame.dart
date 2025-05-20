@@ -15,7 +15,7 @@ class WelcomeFrame extends HookWidget {
     final rutController = useTextEditingController();
     final pinController = useTextEditingController();
 
-    final loginRepository = Loginrepository(baseUrl: 'http://localhost:8080/api/auth/login');
+    final loginRepository = Loginrepository(baseUrl: 'http://localhost:8080/api/auth');
 
     return Scaffold(
       backgroundColor: AppColors.whiteBackground,
@@ -79,9 +79,10 @@ class WelcomeFrame extends HookWidget {
                 height: 48,
                 child: ElevatedButton(onPressed: () async {
                   final rut = rutController.text;
-                  final pin = pinController.text;
+                  final pinText = pinController.text;
+                  final pin = int.tryParse(pinText);
 
-                  if(rut.isEmpty || pin.isEmpty){
+                  if(rut.isEmpty || pinText.isEmpty){
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('Por favor, completa todos los campos'),
@@ -91,21 +92,12 @@ class WelcomeFrame extends HookWidget {
                   }
 
                   try{
-                    final LoginResponse response = await loginRepository.login(rut, pin);
+                    
 
-                    if(response.success){
-                      var box = Hive.box('userBox');
-                      await box.put('jwt_token', response.token);
-                      await box.put('rut', rut);
+                    if(true){
 
                       Navigator.pushNamed(context, '/pin');
                     
-                    }else{
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Error al iniciar sesión'),
-                        ),
-                      );
                     }
 
                   }catch (e){
