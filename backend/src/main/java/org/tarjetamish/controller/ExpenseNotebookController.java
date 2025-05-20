@@ -24,11 +24,11 @@ public class ExpenseNotebookController {
     }
 
     @PostMapping
-    public void createExpenseNotebook(@PathVariable ExpenseNotebookDTO expenseNotebookDTO) {
+    public void createExpenseNotebook(@RequestBody ExpenseNotebookDTO expenseNotebookDTO) {
         expenseNotebookService.save(expenseNotebookDTO);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public void deleteExpenseNotebook(@PathVariable Long id) {
         expenseNotebookService.deleteExpenseNotebook(id);
     }
