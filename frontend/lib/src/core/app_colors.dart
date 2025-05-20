@@ -15,6 +15,6 @@ class AppColors {
   static const Color neutralLightBlue = Color(0xFFE4EAEF);
   static const Color errorColor = Color(0xFFB83F39);
   static const Color successColor = Color(0xFF3C8358);
-
+  static const Color borderColor = Color(0xFFB7C6D4);
   static const Color iconColor = Color(0xFF3D5165);
 }
