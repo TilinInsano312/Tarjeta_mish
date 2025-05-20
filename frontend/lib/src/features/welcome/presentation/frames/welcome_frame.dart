@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:frontend/src/core/app_colors.dart';
+import 'package:frontend/src/domain/models/login.dart';
+import 'package:frontend/src/domain/repository/loginRepository.dart';
+import 'package:hive/hive.dart';
 
 
 class WelcomeFrame extends HookWidget {
@@ -11,6 +14,8 @@ class WelcomeFrame extends HookWidget {
   Widget build(BuildContext context) {
     final rutController = useTextEditingController();
     final pinController = useTextEditingController();
+
+    final loginRepository = Loginrepository(baseUrl: 'http://localhost:8080/api/auth/login');
 
     return Scaffold(
       backgroundColor: AppColors.whiteBackground,
@@ -72,10 +77,46 @@ class WelcomeFrame extends HookWidget {
               SizedBox(
                 width: double.infinity,
                 height: 48,
-                child: ElevatedButton(onPressed: (){
-                  //TODO: add login logic
-                  Navigator.pushNamed(context, '/pin');
+                child: ElevatedButton(onPressed: () async {
+                  final rut = rutController.text;
+                  final pin = pinController.text;
+
+                  if(rut.isEmpty || pin.isEmpty){
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Por favor, completa todos los campos'),
+                      ),
+                    );
+                    return;
+                  }
+
+                  try{
+                    final LoginResponse response = await loginRepository.login(rut, pin);
+
+                    if(response.success){
+                      var box = Hive.box('userBox');
+                      await box.put('jwt_token', response.token);
+                      await box.put('rut', rut);
+
+                      Navigator.pushNamed(context, '/pin');
+                    
+                    }else{
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Error al iniciar sesión'),
+                        ),
+                      );
+                    }
+
+                  }catch (e){
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Error al iniciar sesión'),
+                      ),
+                    );
+                  }
                 },
+
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
                   shape: RoundedRectangleBorder(
