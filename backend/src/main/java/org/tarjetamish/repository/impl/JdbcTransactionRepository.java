@@ -29,8 +29,8 @@ public class JdbcTransactionRepository implements TransactionRepository {
 
     @Override
     public Transaction save(Transaction transaction) {
-        String sql = "INSERT INTO tarjeta_mish.transaction (amount, date, description, rutdestination, accountdestination, rutorigin, accountorigin, idtypemovement, idbank, idaccount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        return jdbc.queryForObject(sql, new TransactionRowMapper(), transaction.getAmount(), transaction.getDate(), transaction.getDescription(), transaction.getRutDestination(), transaction.getAccountDestination(), transaction.getRutOrigin(), transaction.getAccountOrigin(), transaction.getTypeTransaction().name(), transaction.getBank().name(), transaction.getIdAccount());
+        String sql = "INSERT INTO tarjeta_mish.transaction (amount ,name , date, description, rutdestination, accountdestination, rutorigin, accountorigin, idtypemovement, idbank, idaccount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        return jdbc.queryForObject(sql, new TransactionRowMapper(), transaction.getAmount(), transaction.getName(), transaction.getDate(), transaction.getDescription(), transaction.getRutDestination(), transaction.getAccountDestination(), transaction.getRutOrigin(), transaction.getAccountOrigin(), transaction.getTypeTransaction().name(), transaction.getBank().name(), transaction.getIdAccount());
     }
 
     @Override

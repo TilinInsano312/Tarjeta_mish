@@ -16,6 +16,7 @@ public class TransactionRowMapper implements RowMapper<Transaction> {
         Transaction transaction = new Transaction();
         transaction.setId(rs.getLong("idtransaction"));
         transaction.setAmount(rs.getInt("amount"));
+        transaction.setName(rs.getString("name"));
         transaction.setDate(rs.getDate("date"));
         transaction.setDescription(rs.getString("description"));
         transaction.setRutDestination(rs.getString("rutdestino"));
