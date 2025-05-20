@@ -11,7 +11,7 @@ import java.util.List;
 @RequestMapping("/card")
 @AllArgsConstructor
 public class CardController {
-    public CardService cardService;
+    private final CardService cardService;
 
     @GetMapping
     public List<CardDTO> getAllCards() {

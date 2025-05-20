@@ -13,7 +13,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
 
-    public final UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public List<UserDTO> list() {
         return userRepository.findAll().stream()

@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ContactController {
 
-    public ContactService contactService;
+    private final ContactService contactService;
 
     @GetMapping
     public List<ContactDTO> list() {

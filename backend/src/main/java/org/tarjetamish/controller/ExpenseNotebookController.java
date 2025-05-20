@@ -11,7 +11,7 @@ import java.util.List;
 @RequestMapping("/expensenotebook")
 @AllArgsConstructor
 public class ExpenseNotebookController {
-    ExpenseNotebookService expenseNotebookService;
+    private final ExpenseNotebookService expenseNotebookService;
 
     @GetMapping
     public List<ExpenseNotebookDTO> list() {

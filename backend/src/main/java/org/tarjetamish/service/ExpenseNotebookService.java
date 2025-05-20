@@ -13,7 +13,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ExpenseNotebookService {
 
-    public final ExpenseNotebookRepository expenseNotebookRepository;
+    private final ExpenseNotebookRepository expenseNotebookRepository;
 
     public List<ExpenseNotebookDTO> list() {
         return expenseNotebookRepository.findAll().stream()

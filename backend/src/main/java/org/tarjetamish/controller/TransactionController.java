@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class TransactionController {
 
-    public TransactionService transactionService;
+    private final TransactionService transactionService;
 
     @GetMapping
     public List<TransactionDTO> list() {

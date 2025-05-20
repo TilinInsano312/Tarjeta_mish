@@ -13,7 +13,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TransactionService {
 
-    public final TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
 
     public List<TransactionDTO> list() {
         return transactionRepository.findAll().stream()

@@ -7,7 +7,6 @@ import org.tarjetamish.dto.BalanceDTO;
 import org.tarjetamish.service.AccountService;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/account")
