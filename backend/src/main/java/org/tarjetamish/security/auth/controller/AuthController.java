@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.tarjetamish.dto.request.LoginRequestDTO;
 import org.tarjetamish.security.auth.service.IAuthService;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @RequiredArgsConstructor
@@ -14,16 +15,11 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequestMapping("/api/auth")
 public class AuthController {
     private final IAuthService authService;
-    private final ConcurrentHashMap<String, String> tokenCache = new ConcurrentHashMap<>();
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequestDTO loginRequestDTO) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequestDTO loginRequestDTO) {
         String token = authService.login(loginRequestDTO.getRut(), loginRequestDTO.getPin());
-        if (token == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
-        }
-        tokenCache.put(loginRequestDTO.getRut(), token);
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(Map.of("token", token));
     }
 
     @GetMapping("/test")
@@ -31,3 +27,4 @@ public class AuthController {
         return ResponseEntity.ok("Test endpoint");
     }
 }
+    
