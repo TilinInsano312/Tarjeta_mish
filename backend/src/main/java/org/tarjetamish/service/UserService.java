@@ -26,7 +26,7 @@ public class UserService {
     }
 
     public UserDTO save(UserDTO userDTO) {
-        User userEntity = new User(userDTO.getId(), userDTO.getRut(), userDTO.getName(), userDTO.getEmail(), userDTO.getPin());
+        User userEntity = new User(userDTO.id(), userDTO.rut(), userDTO.name(), userDTO.email(), userDTO.pin());
         return convertToDTO(userRepository.save(userEntity));
     }
 

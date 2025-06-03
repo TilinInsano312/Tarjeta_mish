@@ -26,7 +26,7 @@ public class ExpenseNotebookService {
     }
 
     public ExpenseNotebookDTO save(ExpenseNotebookDTO expenseNotebook) {
-        ExpenseNotebook expenseNotebookEntity = new ExpenseNotebook(expenseNotebook.getId(), expenseNotebook.getDescription(), expenseNotebook.getCategoryBook(), expenseNotebook.getTransaction(), expenseNotebook.getIdUser(), expenseNotebook.getName());
+        ExpenseNotebook expenseNotebookEntity = new ExpenseNotebook(expenseNotebook.id(), expenseNotebook.description(), expenseNotebook.categoryBook(), expenseNotebook.transaction(), expenseNotebook.idUser(), expenseNotebook.name());
         return convertToDTO(expenseNotebookRepository.save(expenseNotebookEntity));
     }
 

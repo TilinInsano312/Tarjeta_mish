@@ -34,14 +34,14 @@ public class AuthServiceImpl implements IAuthService {
 
     @Override
     public void register(UserRegisterDTO userRegisterDTO) {
-        if (userRepository.existByRut(userRegisterDTO.getRut())) {
+        if (userRepository.existByRut(userRegisterDTO.rut())) {
             throw new RuntimeException("User already exists");
         }
         User user = new User();
-        String encodedPassword = passwordEncoder.encode(String.valueOf(userRegisterDTO.getPin()));
-        user.setRut(userRegisterDTO.getRut());
-        user.setName(userRegisterDTO.getName());
-        user.setEmail(userRegisterDTO.getEmail());
+        String encodedPassword = passwordEncoder.encode(String.valueOf(userRegisterDTO.pin()));
+        user.setRut(userRegisterDTO.rut());
+        user.setName(userRegisterDTO.name());
+        user.setEmail(userRegisterDTO.email());
         user.setPin(encodedPassword);
         userRepository.save(user);
     }

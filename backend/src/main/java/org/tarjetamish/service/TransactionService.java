@@ -26,7 +26,7 @@ public class TransactionService {
     }
 
     public TransactionDTO save(TransactionDTO transactionDTO) {
-        Transaction transactionEntity = new Transaction(transactionDTO.getId(), transactionDTO.getAmount(), transactionDTO.getName(), transactionDTO.getDate(), transactionDTO.getDescription(), transactionDTO.getRutDestination(), transactionDTO.getAccountDestination(), transactionDTO.getRutOrigin(), transactionDTO.getAccountOrigin(), transactionDTO.getTypeTransaction(), transactionDTO.getBank(), transactionDTO.getIdAccount());
+        Transaction transactionEntity = new Transaction(transactionDTO.id(), transactionDTO.amount(), transactionDTO.name(), transactionDTO.date(), transactionDTO.description(), transactionDTO.rutDestination(), transactionDTO.accountDestination(), transactionDTO.rutOrigin(), transactionDTO.accountOrigin(), transactionDTO.typeTransaction(), transactionDTO.bank(), transactionDTO.idAccount());
         return convertToDTO(transactionRepository.save(transactionEntity));
     }
 

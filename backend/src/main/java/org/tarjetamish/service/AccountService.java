@@ -30,7 +30,7 @@ public class AccountService {
     }
 
     public AccountDTO save(AccountDTO account) {
-        Account accountEntity = new Account(account.getId(), account.getBalance(), account.getAccountNumber(), account.getIdCard(), account.getIdUser());
+        Account accountEntity = new Account(account.id(), account.balance(), account.accountNumber(), account.idCard(), account.idUser());
         return convertToDTO(accountRepository.save(accountEntity));
     }
 

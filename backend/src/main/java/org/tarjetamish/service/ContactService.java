@@ -29,7 +29,7 @@ public class ContactService {
     }
 
     public ContactDTO save(ContactDTO contact) {
-        Contact contactEntity = new Contact(contact.getId(), contact.getName(), contact.getAccountNumber(), contact.getEmail(), contact.getAlias(), contact.getTypeAccount(), contact.getBank(), contact.getIdUser());
+        Contact contactEntity = new Contact(contact.id(), contact.name(), contact.accountNumber(), contact.email(), contact.alias(), contact.typeAccount(), contact.bank(), contact.idUser());
         return convertToDTO(contactRepository.save(contactEntity));
     }
 

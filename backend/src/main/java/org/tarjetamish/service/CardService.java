@@ -25,7 +25,7 @@ public class CardService {
     }
 
     public CardDTO save(CardDTO card) {
-        Card cardEntity = new Card(card.getId(), card.getNumber(), card.getCvv(), card.getExpirationDate(), card.getCardHolderName());
+        Card cardEntity = new Card(card.id(), card.number(), card.cvv(), card.expirationDate(), card.cardHolderName());
         return convertToDTO(cardRepository.save(cardEntity));
     }
 
