@@ -1,14 +1,11 @@
 package org.tarjetamish.security.auth.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.tarjetamish.dto.request.LoginRequestDTO;
 import org.tarjetamish.security.auth.service.IAuthService;
-
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @RequiredArgsConstructor
 @RestController
@@ -18,7 +15,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequestDTO loginRequestDTO) {
-        String token = authService.login(loginRequestDTO.getRut(), loginRequestDTO.getPin());
+        String token = authService.login(loginRequestDTO.rut(), loginRequestDTO.pin());
         return ResponseEntity.ok(Map.of("token", token));
     }
 
