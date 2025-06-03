@@ -2,23 +2,17 @@ package org.tarjetamish.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+public record UserRegisterDTO (
+        @NotBlank(message = "Rut is mandatory")
+        String rut,
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class UserRegisterDTO {
+        @NotBlank(message = "Name is mandatory")
+        String name,
 
-    @NotBlank(message = "Rut cannot be empty.")
-    private String rut;
-    @NotBlank(message = "Name cannot be empty.")
-    @Size(max = 20, message = "Name must be less than 20 characters.")
-    private String name;
-    @NotBlank(message = "Email cannot be empty.")
-    @Size(max = 80, message = "Email must be less than 80 characters.")
-    private String email;
-    @NotBlank(message = "Pin cannot be empty.")
-    @Size(max = 4, message = "Pin must be less than 4 characters.")
-    private int pin;
-}
+        @NotBlank(message = "Email is mandatory")
+        String email,
+
+        @NotBlank(message = "Pin is mandatory")
+        @Size(min = 4, max = 4, message = "Pin must be exactly 4 digits")
+        String pin
+) {}
