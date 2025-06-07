@@ -5,7 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.tarjetamish.user.model.User;
 import org.tarjetamish.user.repository.UserRepository;
-import org.tarjetamish.user.mapper.UserRowMapper;
+import org.tarjetamish.user.mapper.impl.UserRowMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,22 +15,23 @@ import java.util.Optional;
 public class JdbcUserRepository implements UserRepository {
 
     private final JdbcTemplate jdbc;
+    private final UserRowMapper userRowMapper;
     @Override
     public List<User> findAll() {
         String sql = "SELECT * FROM tarjeta_mish.user";
-        return jdbc.query(sql, new UserRowMapper());
+        return jdbc.query(sql, userRowMapper);
     }
 
     @Override
     public Optional<User> findById(Long id) {
         String sql = "SELECT * FROM tarjeta_mish.user WHERE iduser = ?";
-        return Optional.ofNullable(jdbc.queryForObject(sql, new UserRowMapper(), id));
+        return Optional.ofNullable(jdbc.queryForObject(sql, userRowMapper, id));
     }
 
     @Override
     public User save(User user) {
         String sql = "INSERT INTO tarjeta_mish.user (rut, name, email, pin) VALUES (?, ?, ?, ?)";
-        jdbc.update(sql, new UserRowMapper(), user.getRut(), user.getName(), user.getEmail(), user.getPin());
+        jdbc.update(sql, userRowMapper, user.getRut(), user.getName(), user.getEmail(), user.getPin());
         return user;
     }
 
@@ -43,7 +44,7 @@ public class JdbcUserRepository implements UserRepository {
     @Override
     public Optional<User> findByRut(String rut) {
         String sql = "SELECT * FROM tarjeta_mish.user WHERE rut = ?";
-        return Optional.ofNullable(jdbc.queryForObject(sql, new UserRowMapper(), rut));
+        return Optional.ofNullable(jdbc.queryForObject(sql, userRowMapper, rut));
     }
 
     @Override
