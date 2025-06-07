@@ -1,4 +1,4 @@
-package org.tarjetamish.transaction.mapper;
+package org.tarjetamish.transaction.mapper.impl;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
