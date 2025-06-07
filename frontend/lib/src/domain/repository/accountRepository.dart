@@ -11,11 +11,9 @@ class AccountRepository extends BaseRepository{
 
   Future<Account> getAccount() async {
     try{
-      print('📊 Solicitando cuenta desde: ${AppConfig.accountEndpoint}/1');
+
       final response = await authenticatedGet('${AppConfig.accountEndpoint}/1');
         
-      print('📊 Respuesta código: ${response.statusCode}');
-      print('📊 Respuesta cuerpo: ${response.body}');
       switch (response.statusCode) {
       case 200:
         return Account.fromJson(jsonDecode(response.body));
