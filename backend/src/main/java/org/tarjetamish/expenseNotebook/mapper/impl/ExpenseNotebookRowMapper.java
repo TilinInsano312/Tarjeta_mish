@@ -1,4 +1,4 @@
-package org.tarjetamish.expenseNotebook.mapper;
+package org.tarjetamish.expenseNotebook.mapper.impl;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;

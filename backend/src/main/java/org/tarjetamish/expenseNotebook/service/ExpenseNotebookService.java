@@ -3,7 +3,7 @@ package org.tarjetamish.expenseNotebook.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.tarjetamish.expenseNotebook.dto.ExpenseNotebookDTO;
-import org.tarjetamish.expenseNotebook.model.ExpenseNotebook;
+import org.tarjetamish.expenseNotebook.mapper.IExpenseNotebookConverter;
 import org.tarjetamish.expenseNotebook.repository.ExpenseNotebookRepository;
 
 import java.util.List;
@@ -14,27 +14,27 @@ import java.util.Optional;
 public class ExpenseNotebookService {
 
     private final ExpenseNotebookRepository expenseNotebookRepository;
+    private final IExpenseNotebookConverter expenseNotebookConverter;
 
     public List<ExpenseNotebookDTO> list() {
         return expenseNotebookRepository.findAll().stream()
-                .map(this::convertToDTO)
+                .map(expenseNotebookConverter::toExpenseNotebookDTO)
                 .toList();
     }
 
     public Optional<ExpenseNotebookDTO> findByCategory(String category) {
-        return Optional.ofNullable(expenseNotebookRepository.findByCategory(category).map(this::convertToDTO).orElse(null));
+        return Optional.ofNullable(expenseNotebookRepository.findByCategory(category).map(expenseNotebookConverter::toExpenseNotebookDTO).orElse(null));
     }
 
     public ExpenseNotebookDTO save(ExpenseNotebookDTO expenseNotebook) {
-        ExpenseNotebook expenseNotebookEntity = new ExpenseNotebook(expenseNotebook.id(), expenseNotebook.description(), expenseNotebook.categoryBook(), expenseNotebook.transaction(), expenseNotebook.idUser(), expenseNotebook.name());
-        return convertToDTO(expenseNotebookRepository.save(expenseNotebookEntity));
+        return expenseNotebookConverter.toExpenseNotebookDTO(
+                expenseNotebookRepository.save(expenseNotebookConverter.toExpenseNotebook(expenseNotebook))
+        );
     }
 
     public void deleteExpenseNotebook(Long id) {
         expenseNotebookRepository.deleteById(id);
     }
 
-    private ExpenseNotebookDTO convertToDTO(ExpenseNotebook expenseNotebook) {
-        return new ExpenseNotebookDTO(expenseNotebook.getId(), expenseNotebook.getDescription(), expenseNotebook.getCategoryBook(), expenseNotebook.getTransaction(), expenseNotebook.getIdUser(), expenseNotebook.getName());
-    }
+
 }
