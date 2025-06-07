@@ -5,7 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.tarjetamish.account.model.Account;
 import org.tarjetamish.account.repository.AccountRepository;
-import org.tarjetamish.account.mapper.AccountRowMapper;
+import org.tarjetamish.account.mapper.impl.AccountRowMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +14,7 @@ import java.util.Optional;
 public class JdbcAccountRepository implements AccountRepository {
 
     private final JdbcTemplate jdbc;
+    private final AccountRowMapper accountRowMapper;
 
     @Override
     public List<Account> findAll() {
@@ -24,19 +25,19 @@ public class JdbcAccountRepository implements AccountRepository {
     @Override
     public Optional<Account> findById(Long id) {
         String sql = "SELECT * FROM tarjeta_mish.account WHERE idaccount = ?";
-        return Optional.ofNullable(jdbc.queryForObject(sql, new AccountRowMapper(), id));
+        return Optional.ofNullable(jdbc.queryForObject(sql, accountRowMapper, id));
     }
 
     @Override
     public Optional<Account> findByAccountNumber(int accountNumber) {
         String sql = "SELECT * FROM tarjeta_mish.account WHERE accountnumber = ?";
-        return Optional.ofNullable(jdbc.queryForObject(sql, new AccountRowMapper(), accountNumber));
+        return Optional.ofNullable(jdbc.queryForObject(sql, accountRowMapper, accountNumber));
     }
 
     @Override
     public Account save(Account account) {
         String sql = "INSERT INTO tarjeta_mish.account (balance, accountnumber, idcard, iduser) VALUES (?, ?, ?, ?)";
-        return jdbc.queryForObject(sql, new AccountRowMapper(), account.getBalance(), account.getAccountNumber(), account.getIdCard(), account.getIdUser());
+        return jdbc.queryForObject(sql, accountRowMapper, account.getBalance(), account.getAccountNumber(), account.getIdCard(), account.getIdUser());
     }
 
     @Override

@@ -1,7 +1,8 @@
-package org.tarjetamish.card.mapper;
+package org.tarjetamish.card.mapper.impl;
 
 import org.springframework.stereotype.Component;
 import org.tarjetamish.card.dto.CardDTO;
+import org.tarjetamish.card.mapper.ICardConverter;
 import org.tarjetamish.card.model.Card;
 
 @Component

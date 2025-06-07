@@ -1,4 +1,4 @@
-package org.tarjetamish.account.mapper;
+package org.tarjetamish.account.mapper.impl;
 
 import org.springframework.jdbc.core.RowMapper;
 
