@@ -3,7 +3,8 @@ package org.tarjetamish.repository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.tarjetamish.model.User;
+import org.tarjetamish.user.model.User;
+import org.tarjetamish.user.repository.UserRepository;
 
 import java.util.Optional;
 
