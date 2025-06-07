@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.tarjetamish.user.dto.UserDTO;
 import org.tarjetamish.user.mapper.IUserConverter;
-import org.tarjetamish.user.model.User;
+
 import org.tarjetamish.user.repository.UserRepository;
 
 import java.util.List;
