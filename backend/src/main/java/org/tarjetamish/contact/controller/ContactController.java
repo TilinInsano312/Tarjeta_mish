@@ -1,6 +1,7 @@
 package org.tarjetamish.contact.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.tarjetamish.contact.dto.ContactDTO;
 import org.tarjetamish.contact.service.ContactService;
@@ -8,33 +9,38 @@ import org.tarjetamish.contact.service.ContactService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/contact")
+@RequestMapping("api/contact")
 @AllArgsConstructor
 public class ContactController {
 
     private final ContactService contactService;
 
     @GetMapping
-    public List<ContactDTO> list() {
-        return contactService.list();
+    public ResponseEntity<List<ContactDTO>> list() {
+        return ResponseEntity.ok(contactService.list());
     }
     @GetMapping("/name/{name}")
-    public ContactDTO getContactByName(@PathVariable String name) {
-        return contactService.findByName(name).orElse(null);
+    public ResponseEntity<ContactDTO> getContactByName(@PathVariable String name) {
+        return contactService.findByName(name)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
     @GetMapping("/alias/{alias}")
-    public ContactDTO getContactByAlias(@PathVariable String alias) {
-        return contactService.findByAlias(alias).orElse(null);
+    public ResponseEntity<ContactDTO> getContactByAlias(@PathVariable String alias) {
+        return contactService.findByAlias(alias)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping
-    public void createContact(@RequestBody ContactDTO contactDTO) {
-        contactService.save(contactDTO);
+    public ResponseEntity createContact(@RequestBody ContactDTO contactDTO) {
+        return ResponseEntity.ok(contactService.save(contactDTO));
     }
 
     @DeleteMapping
-    public void deleteContact(@PathVariable Long id) {
+    public ResponseEntity deleteContact(@PathVariable Long id) {
         contactService.deleteContact(id);
+        return ResponseEntity.ok().build();
     }
 
 }

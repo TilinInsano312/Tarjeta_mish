@@ -1,6 +1,7 @@
 package org.tarjetamish.account.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.tarjetamish.account.dto.AccountDTO;
 import org.tarjetamish.account.dto.BalanceDTO;
@@ -9,33 +10,38 @@ import org.tarjetamish.account.service.AccountService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/account")
+@RequestMapping("api/account")
 @AllArgsConstructor
 public class AccountController {
     private final AccountService accountService;
 
     @GetMapping
-    public List<AccountDTO> getAllAccounts() {
-        return accountService.list();
+    public ResponseEntity<List<AccountDTO>> getAllAccounts() {
+        return ResponseEntity.ok(accountService.list());
     }
     @GetMapping("/{id}")
-    public AccountDTO getAccountById(@PathVariable Long id) {
-        return accountService.findById(id).orElse(null);
+    public ResponseEntity<AccountDTO> getAccountById(@PathVariable Long id) {
+        return accountService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
     @GetMapping("/accountnumber/{accountNumber}")
-    public AccountDTO getAccountByAccountNumber(@PathVariable int accountNumber) {
-        return accountService.findByAccountNumber(accountNumber).orElse(null);
+    public ResponseEntity<AccountDTO> getAccountByAccountNumber(@PathVariable int accountNumber) {
+        return accountService.findByAccountNumber(accountNumber)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
     @PostMapping
-    public void createAccount(@RequestBody AccountDTO accountDTO) {
-        accountService.save(accountDTO);
+    public ResponseEntity createAccount(@RequestBody AccountDTO accountDTO) {
+        return ResponseEntity.ok(accountService.save(accountDTO));
     }
     @DeleteMapping("/{id}")
-    public void deleteAccount(@PathVariable Long id) {
+    public ResponseEntity deleteAccount(@PathVariable Long id) {
         accountService.deleteAccount(id);
+        return ResponseEntity.ok().build();
     }
     @GetMapping("/balance/{id}")
-    public BalanceDTO balance(@PathVariable Long id) {
-        return accountService.getBalance(id);
+    public ResponseEntity<BalanceDTO> balance(@PathVariable Long id) {
+        return ResponseEntity.ok(accountService.getBalance(id));
     }
 }

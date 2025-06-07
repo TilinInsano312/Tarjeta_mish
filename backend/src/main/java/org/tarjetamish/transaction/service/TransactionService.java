@@ -3,6 +3,7 @@ package org.tarjetamish.transaction.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.tarjetamish.transaction.dto.TransactionDTO;
+import org.tarjetamish.transaction.mapper.ITransactionConverter;
 import org.tarjetamish.transaction.model.Transaction;
 import org.tarjetamish.transaction.repository.TransactionRepository;
 
@@ -14,27 +15,27 @@ import java.util.Optional;
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
+    private final ITransactionConverter transactionConverter;
 
     public List<TransactionDTO> list() {
         return transactionRepository.findAll().stream()
-                .map(this::convertToDTO)
+                .map(transactionConverter::toTransactionDTO)
                 .toList();
     }
 
     public Optional<TransactionDTO> findById(Long id) {
-        return Optional.ofNullable(transactionRepository.findById(id).map(this::convertToDTO).orElse(null));
+        return Optional.ofNullable(transactionRepository.findById(id).map(transactionConverter::toTransactionDTO).orElse(null));
     }
 
     public TransactionDTO save(TransactionDTO transactionDTO) {
-        Transaction transactionEntity = new Transaction(transactionDTO.id(), transactionDTO.amount(), transactionDTO.name(), transactionDTO.date(), transactionDTO.description(), transactionDTO.rutDestination(), transactionDTO.accountDestination(), transactionDTO.rutOrigin(), transactionDTO.accountOrigin(), transactionDTO.typeTransaction(), transactionDTO.bank(), transactionDTO.idAccount());
-        return convertToDTO(transactionRepository.save(transactionEntity));
+        return transactionConverter.toTransactionDTO(
+                transactionRepository.save(transactionConverter.toTransaction(transactionDTO))
+        );
     }
 
     public void deleteTransaction(Long id) {
         transactionRepository.deleteById(id);
     }
-
-    private TransactionDTO convertToDTO(Transaction transaction) {
-        return new TransactionDTO(transaction.getId(), transaction.getAmount(), transaction.getName(), transaction.getDate(), transaction.getDescription(), transaction.getRutDestination(), transaction.getAccountDestination(), transaction.getRutOrigin(), transaction.getAccountOrigin(), transaction.getTypeTransaction(), transaction.getBank(), transaction.getIdAccount());
-    }
 }
+
+

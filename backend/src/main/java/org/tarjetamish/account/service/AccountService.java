@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.tarjetamish.account.dto.AccountDTO;
 import org.tarjetamish.account.dto.BalanceDTO;
+import org.tarjetamish.account.mapper.IAccountConverter;
 import org.tarjetamish.account.model.Account;
 import org.tarjetamish.account.repository.AccountRepository;
 
@@ -14,32 +15,30 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AccountService {
     private final AccountRepository accountRepository;
+    private final IAccountConverter accountConverter;
 
     public List<AccountDTO> list() {
         return accountRepository.findAll().stream()
-                .map(this::convertToDTO)
+                .map(accountConverter::toAccountDTO)
                 .toList();
     }
 
     public Optional<AccountDTO> findById(Long id) {
-        return Optional.ofNullable(accountRepository.findById(id).map(this::convertToDTO).orElse(null));
+        return Optional.ofNullable(accountRepository.findById(id).map(accountConverter::toAccountDTO).orElse(null));
     }
 
     public Optional<AccountDTO> findByAccountNumber(int accountNumber) {
-        return Optional.ofNullable(accountRepository.findByAccountNumber(accountNumber).map(this::convertToDTO).orElse(null));
+        return Optional.ofNullable(accountRepository.findByAccountNumber(accountNumber).map(accountConverter::toAccountDTO).orElse(null));
     }
 
     public AccountDTO save(AccountDTO account) {
-        Account accountEntity = new Account(account.id(), account.balance(), account.accountNumber(), account.idCard(), account.idUser());
-        return convertToDTO(accountRepository.save(accountEntity));
+        return accountConverter.toAccountDTO(
+                accountRepository.save(accountConverter.toAccount(account))
+        );
     }
 
     public void deleteAccount(Long id) {
         accountRepository.deleteById(id);
-    }
-
-    private AccountDTO convertToDTO(Account account) {
-        return new AccountDTO(account.getId(), account.getBalance(), account.getAccountNumber(), account.getIdCard(), account.getIdUser());
     }
 
     public BalanceDTO getBalance(Long id) {

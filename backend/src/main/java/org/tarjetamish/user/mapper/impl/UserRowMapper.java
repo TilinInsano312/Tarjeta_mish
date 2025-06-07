@@ -1,4 +1,4 @@
-package org.tarjetamish.user.mapper;
+package org.tarjetamish.user.mapper.impl;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;

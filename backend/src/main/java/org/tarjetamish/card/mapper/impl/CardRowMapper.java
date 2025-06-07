@@ -1,4 +1,4 @@
-package org.tarjetamish.card.mapper;
+package org.tarjetamish.card.mapper.impl;
 
 import org.springframework.stereotype.Component;
 import org.tarjetamish.card.model.Card;

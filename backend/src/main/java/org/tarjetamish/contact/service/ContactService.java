@@ -3,6 +3,7 @@ package org.tarjetamish.contact.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.tarjetamish.contact.dto.ContactDTO;
+import org.tarjetamish.contact.mapper.IContactConverter;
 import org.tarjetamish.contact.model.Contact;
 import org.tarjetamish.contact.repository.impl.ContactRepository;
 
@@ -13,32 +14,30 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ContactService {
     private final ContactRepository contactRepository;
+    private final IContactConverter contactConverter;
 
     public List<ContactDTO> list() {
         return contactRepository.findAll().stream()
-                .map(this::convertToDTO)
+                .map(contactConverter::toContactDTO)
                 .toList();
     }
 
     public Optional<ContactDTO> findByName(String name) {
-        return Optional.ofNullable(contactRepository.findByName(name).map(this::convertToDTO).orElse(null));
+        return Optional.ofNullable(contactRepository.findByName(name).map(contactConverter::toContactDTO).orElse(null));
     }
 
     public Optional<ContactDTO> findByAlias(String alias) {
-        return Optional.ofNullable(contactRepository.findByAlias(alias).map(this::convertToDTO).orElse(null));
+        return Optional.ofNullable(contactRepository.findByAlias(alias).map(contactConverter::toContactDTO).orElse(null));
     }
 
     public ContactDTO save(ContactDTO contact) {
-        Contact contactEntity = new Contact(contact.id(), contact.name(), contact.accountNumber(), contact.email(), contact.alias(), contact.typeAccount(), contact.bank(), contact.idUser());
-        return convertToDTO(contactRepository.save(contactEntity));
+        return contactConverter.toContactDTO(
+                contactRepository.save(contactConverter.toContact(contact))
+        );
     }
 
     public void deleteContact(Long id) {
         contactRepository.deleteById(id);
-    }
-
-    private ContactDTO convertToDTO(Contact contact) {
-        return new ContactDTO(contact.getId(), contact.getName(), contact.getAccountNumber(), contact.getEmail(), contact.getAlias(), contact.getTypeAccount(), contact.getBank(), contact.getIdUser());
     }
 
 }
