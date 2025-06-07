@@ -1,4 +1,4 @@
-package org.tarjetamish.contact.mapper;
+package org.tarjetamish.contact.mapper.impl;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
