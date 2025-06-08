@@ -1,6 +1,6 @@
-package org.tarjetamish.expenseNotebook.dto;
+package org.tarjetamish.expense.notebook.dto;
 
-import org.tarjetamish.expenseNotebook.model.enums.CategoryBook;
+import org.tarjetamish.expense.notebook.model.enums.CategoryBook;
 import org.tarjetamish.transaction.model.enums.TypeTransaction;
 
 public record ExpenseNotebookDTO(Long id,

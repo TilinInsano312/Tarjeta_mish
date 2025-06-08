@@ -1,4 +1,4 @@
-package org.tarjetamish.expenseNotebook.model.enums;
+package org.tarjetamish.expense.notebook.model.enums;
 
 public enum CategoryBook {
     OCIO,

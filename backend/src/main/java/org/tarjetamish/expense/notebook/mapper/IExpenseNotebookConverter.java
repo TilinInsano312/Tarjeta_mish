@@ -1,7 +1,7 @@
-package org.tarjetamish.expenseNotebook.mapper;
+package org.tarjetamish.expense.notebook.mapper;
 
-import org.tarjetamish.expenseNotebook.dto.ExpenseNotebookDTO;
-import org.tarjetamish.expenseNotebook.model.ExpenseNotebook;
+import org.tarjetamish.expense.notebook.dto.ExpenseNotebookDTO;
+import org.tarjetamish.expense.notebook.model.ExpenseNotebook;
 
 public interface IExpenseNotebookConverter {
     ExpenseNotebookDTO toExpenseNotebookDTO(ExpenseNotebook expenseNotebook);

@@ -1,10 +1,10 @@
-package org.tarjetamish.expenseNotebook.model;
+package org.tarjetamish.expense.notebook.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.tarjetamish.expenseNotebook.model.enums.CategoryBook;
+import org.tarjetamish.expense.notebook.model.enums.CategoryBook;
 import org.tarjetamish.transaction.model.enums.TypeTransaction;
 
 @Getter

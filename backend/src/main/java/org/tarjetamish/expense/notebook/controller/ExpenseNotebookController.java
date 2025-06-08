@@ -1,10 +1,10 @@
-package org.tarjetamish.expenseNotebook.controller;
+package org.tarjetamish.expense.notebook.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.tarjetamish.expenseNotebook.dto.ExpenseNotebookDTO;
-import org.tarjetamish.expenseNotebook.service.ExpenseNotebookService;
+import org.tarjetamish.expense.notebook.dto.ExpenseNotebookDTO;
+import org.tarjetamish.expense.notebook.service.ExpenseNotebookService;
 
 import java.util.List;
 
