@@ -3,8 +3,8 @@ package org.tarjetamish.transaction.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.tarjetamish.transaction.dto.TransactionDTO;
+import org.tarjetamish.transaction.exception.TransactionNotFoundException;
 import org.tarjetamish.transaction.mapper.ITransactionConverter;
-import org.tarjetamish.transaction.model.Transaction;
 import org.tarjetamish.transaction.repository.TransactionRepository;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public class TransactionService {
     }
 
     public Optional<TransactionDTO> findById(Long id) {
-        return Optional.ofNullable(transactionRepository.findById(id).map(transactionConverter::toTransactionDTO).orElse(null));
+        return Optional.ofNullable(transactionRepository.findById(id).map(transactionConverter::toTransactionDTO).orElseThrow(TransactionNotFoundException::new));
     }
 
     public TransactionDTO save(TransactionDTO transactionDTO) {

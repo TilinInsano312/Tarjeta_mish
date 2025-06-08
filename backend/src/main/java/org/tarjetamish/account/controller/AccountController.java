@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.tarjetamish.account.dto.AccountDTO;
-import org.tarjetamish.account.dto.BalanceDTO;
 import org.tarjetamish.account.service.AccountService;
 
 import java.util.List;
@@ -32,16 +31,12 @@ public class AccountController {
                 .orElse(ResponseEntity.notFound().build());
     }
     @PostMapping
-    public ResponseEntity createAccount(@RequestBody AccountDTO accountDTO) {
+    public ResponseEntity<AccountDTO> createAccount(@RequestBody AccountDTO accountDTO) {
         return ResponseEntity.ok(accountService.save(accountDTO));
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteAccount(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteAccount(@PathVariable Long id) {
         accountService.deleteAccount(id);
         return ResponseEntity.ok().build();
-    }
-    @GetMapping("/balance/{id}")
-    public ResponseEntity<BalanceDTO> balance(@PathVariable Long id) {
-        return ResponseEntity.ok(accountService.getBalance(id));
     }
 }

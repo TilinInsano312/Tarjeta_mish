@@ -1,6 +1,6 @@
-package org.tarjetamish.expenseNotebook.repository;
+package org.tarjetamish.expense.notebook.repository;
 
-import org.tarjetamish.expenseNotebook.model.ExpenseNotebook;
+import org.tarjetamish.expense.notebook.model.ExpenseNotebook;
 
 import java.util.List;
 import java.util.Optional;

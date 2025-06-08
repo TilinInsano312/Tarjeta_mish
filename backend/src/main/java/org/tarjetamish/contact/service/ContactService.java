@@ -3,8 +3,8 @@ package org.tarjetamish.contact.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.tarjetamish.contact.dto.ContactDTO;
+import org.tarjetamish.contact.exception.ContactNotFoundException;
 import org.tarjetamish.contact.mapper.IContactConverter;
-import org.tarjetamish.contact.model.Contact;
 import org.tarjetamish.contact.repository.impl.ContactRepository;
 
 import java.util.List;
@@ -23,11 +23,11 @@ public class ContactService {
     }
 
     public Optional<ContactDTO> findByName(String name) {
-        return Optional.ofNullable(contactRepository.findByName(name).map(contactConverter::toContactDTO).orElse(null));
+        return Optional.ofNullable(contactRepository.findByName(name).map(contactConverter::toContactDTO).orElseThrow(ContactNotFoundException::new));
     }
 
     public Optional<ContactDTO> findByAlias(String alias) {
-        return Optional.ofNullable(contactRepository.findByAlias(alias).map(contactConverter::toContactDTO).orElse(null));
+        return Optional.ofNullable(contactRepository.findByAlias(alias).map(contactConverter::toContactDTO).orElseThrow(ContactNotFoundException::new));
     }
 
     public ContactDTO save(ContactDTO contact) {

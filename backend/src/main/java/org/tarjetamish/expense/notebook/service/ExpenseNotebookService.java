@@ -1,10 +1,11 @@
-package org.tarjetamish.expenseNotebook.service;
+package org.tarjetamish.expense.notebook.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.tarjetamish.expenseNotebook.dto.ExpenseNotebookDTO;
-import org.tarjetamish.expenseNotebook.mapper.IExpenseNotebookConverter;
-import org.tarjetamish.expenseNotebook.repository.ExpenseNotebookRepository;
+import org.tarjetamish.expense.notebook.dto.ExpenseNotebookDTO;
+import org.tarjetamish.expense.notebook.exception.ExpenseNotebookNotFoundException;
+import org.tarjetamish.expense.notebook.mapper.IExpenseNotebookConverter;
+import org.tarjetamish.expense.notebook.repository.ExpenseNotebookRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +24,7 @@ public class ExpenseNotebookService {
     }
 
     public Optional<ExpenseNotebookDTO> findByCategory(String category) {
-        return Optional.ofNullable(expenseNotebookRepository.findByCategory(category).map(expenseNotebookConverter::toExpenseNotebookDTO).orElse(null));
+        return Optional.ofNullable(expenseNotebookRepository.findByCategory(category).map(expenseNotebookConverter::toExpenseNotebookDTO).orElseThrow(ExpenseNotebookNotFoundException::new));
     }
 
     public ExpenseNotebookDTO save(ExpenseNotebookDTO expenseNotebook) {

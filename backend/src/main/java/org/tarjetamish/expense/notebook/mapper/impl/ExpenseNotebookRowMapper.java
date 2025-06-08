@@ -1,9 +1,9 @@
-package org.tarjetamish.expenseNotebook.mapper.impl;
+package org.tarjetamish.expense.notebook.mapper.impl;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
-import org.tarjetamish.expenseNotebook.model.ExpenseNotebook;
-import org.tarjetamish.expenseNotebook.model.enums.CategoryBook;
+import org.tarjetamish.expense.notebook.model.ExpenseNotebook;
+import org.tarjetamish.expense.notebook.model.enums.CategoryBook;
 import org.tarjetamish.transaction.model.enums.TypeTransaction;
 
 import java.sql.ResultSet;

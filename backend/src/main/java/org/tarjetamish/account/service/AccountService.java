@@ -2,10 +2,9 @@ package org.tarjetamish.account.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.tarjetamish.account.exception.AccountNotFoundException;
 import org.tarjetamish.account.dto.AccountDTO;
-import org.tarjetamish.account.dto.BalanceDTO;
 import org.tarjetamish.account.mapper.IAccountConverter;
-import org.tarjetamish.account.model.Account;
 import org.tarjetamish.account.repository.AccountRepository;
 
 import java.util.List;
@@ -24,11 +23,11 @@ public class AccountService {
     }
 
     public Optional<AccountDTO> findById(Long id) {
-        return Optional.ofNullable(accountRepository.findById(id).map(accountConverter::toAccountDTO).orElse(null));
+        return Optional.ofNullable(accountRepository.findById(id).map(accountConverter::toAccountDTO).orElseThrow(AccountNotFoundException::new));
     }
 
     public Optional<AccountDTO> findByAccountNumber(int accountNumber) {
-        return Optional.ofNullable(accountRepository.findByAccountNumber(accountNumber).map(accountConverter::toAccountDTO).orElse(null));
+        return Optional.ofNullable(accountRepository.findByAccountNumber(accountNumber).map(accountConverter::toAccountDTO).orElseThrow(AccountNotFoundException::new));
     }
 
     public AccountDTO save(AccountDTO account) {
@@ -41,9 +40,5 @@ public class AccountService {
         accountRepository.deleteById(id);
     }
 
-    public BalanceDTO getBalance(Long id) {
-        Account account = accountRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Account not found"));
-        return new BalanceDTO(account.getId(), account.getBalance());
-    }
+
 }

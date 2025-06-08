@@ -3,6 +3,7 @@ package org.tarjetamish.user.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.tarjetamish.user.dto.UserDTO;
+import org.tarjetamish.user.exception.UserNotFoundException;
 import org.tarjetamish.user.mapper.IUserConverter;
 
 import org.tarjetamish.user.repository.UserRepository;
@@ -24,7 +25,7 @@ public class UserService {
     }
 
     public Optional<UserDTO> findById(Long id) {
-        return Optional.of(userRepository.findById(id).map(userConverter::toUserDTO).orElse(null));
+        return Optional.of(userRepository.findById(id).map(userConverter::toUserDTO).orElseThrow(UserNotFoundException::new));
     }
 
     public UserDTO save(UserDTO userDTO) {

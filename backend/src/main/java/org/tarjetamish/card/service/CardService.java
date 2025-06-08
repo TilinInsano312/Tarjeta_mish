@@ -3,6 +3,7 @@ package org.tarjetamish.card.service;
 import org.tarjetamish.card.dto.CardDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.tarjetamish.card.exception.CardNotFoundException;
 import org.tarjetamish.card.mapper.ICardConverter;
 import org.tarjetamish.card.repository.CardRepository;
 
@@ -22,7 +23,7 @@ public class CardService {
     }
 
     public Optional<CardDTO> findById(Long id) {
-        return Optional.ofNullable(cardRepository.findById(id).map(cardConverter::toCardDTO).orElse(null));
+        return Optional.ofNullable(cardRepository.findById(id).map(cardConverter::toCardDTO).orElseThrow(CardNotFoundException::new));
     }
 
     public CardDTO save(CardDTO card) {
