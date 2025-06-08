@@ -5,6 +5,9 @@ import lombok.extern.java.Log;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.tarjetamish.account.dto.request.UserRegisterDTO;
+import org.tarjetamish.auth.exception.InvalidCredentialsException;
+import org.tarjetamish.auth.exception.UserAlreadyExistException;
+import org.tarjetamish.auth.exception.UserNotFoundException;
 import org.tarjetamish.user.model.User;
 import org.tarjetamish.user.repository.UserRepository;
 import org.tarjetamish.auth.jwt.JwtProvider;
@@ -20,11 +23,11 @@ public class AuthServiceImpl implements IAuthService {
     @Override
     public String login(String rut, int pin) {
         User user = userRepository.findByRut(rut)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException(rut));
         if (String.valueOf(pin).equals(String.valueOf(user.getPin()))) {
             return jwtProvider.generateToken(user);
         }
-        throw new RuntimeException("Invalid credentials");
+        throw new InvalidCredentialsException("Invalid credentials");
     }
 
     @Override
@@ -35,7 +38,7 @@ public class AuthServiceImpl implements IAuthService {
     @Override
     public void register(UserRegisterDTO userRegisterDTO) {
         if (userRepository.existByRut(userRegisterDTO.rut())) {
-            throw new RuntimeException("User already exists");
+            throw new UserAlreadyExistException(userRegisterDTO.rut());
         }
         User user = new User();
         String encodedPassword = passwordEncoder.encode(String.valueOf(userRegisterDTO.pin()));
