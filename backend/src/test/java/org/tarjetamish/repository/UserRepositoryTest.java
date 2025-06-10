@@ -27,8 +27,8 @@ class UserRepositoryTest {
     void addUser(){
         String rut = "111111111";
         User user = new User(0L, rut, "Test", "User", "1234");
-        User savedUser = userRepository.save(user);
-        assertNotNull(savedUser, "Usuario debe ser guardado correctamente");
+        int ok = userRepository.save(user);
+        assertEquals(1, ok, "Usuario debe ser agregado correctamente");
     }
     @Test
     void deleteUser() {

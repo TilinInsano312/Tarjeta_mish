@@ -29,10 +29,10 @@ public class JdbcUserRepository implements UserRepository {
     }
 
     @Override
-    public User save(User user) {
+    public int save(User user) {
         String sql = "INSERT INTO tarjeta_mish.user (rut, name, email, pin) VALUES (?, ?, ?, ?)";
         jdbc.queryForObject(sql, userRowMapper, user.getRut(), user.getName(), user.getEmail(), user.getPin());
-        return user;
+        return 1;
     }
 
     @Override
