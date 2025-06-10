@@ -20,7 +20,7 @@ class AuthService {
 
   Future<bool> login(String rut, int pin) async {
     try {
-        final loginRepository = LoginRepository(baseUrl: AppConfig.baseUrl+'/api/auth');
+        final loginRepository = LoginRepository(baseUrl: AppConfig.baseUrl+'/auth');
       
       final loginResponse = await loginRepository.login(rut, pin);
       
