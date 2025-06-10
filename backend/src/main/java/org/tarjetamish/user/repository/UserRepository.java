@@ -11,9 +11,9 @@ public interface UserRepository {
 
     Optional<User> findById(Long id);
 
-    User save(User user);
+    int save(User user);
 
-    void deleteById(Long id);
+    int deleteByRut(String rut);
 
     Optional<User> findByRut(String rut);
 

@@ -28,13 +28,15 @@ public class UserService {
         return Optional.of(userRepository.findById(id).map(userConverter::toUserDTO).orElseThrow(UserNotFoundException::new));
     }
 
-    public UserDTO save(UserDTO userDTO) {
-        return userConverter.toUserDTO(
-                userRepository.save(userConverter.toUserEntity(userDTO))
-        );
+    public int save(UserDTO userDTO) {
+        return userRepository.save(userConverter.toUserEntity(userDTO));
+    }
+    public Optional<UserDTO> findByRut(String rut) {
+        return Optional.of(userRepository.findByRut(rut)
+                .map(userConverter::toUserDTO).orElseThrow(UserNotFoundException::new));
     }
 
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+    public int deleteUser(String rut) {
+        return userRepository.deleteByRut(rut);
     }
 }

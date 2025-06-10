@@ -29,16 +29,15 @@ public class JdbcUserRepository implements UserRepository {
     }
 
     @Override
-    public User save(User user) {
+    public int save(User user) {
         String sql = "INSERT INTO tarjeta_mish.user (rut, name, email, pin) VALUES (?, ?, ?, ?)";
-        jdbc.update(sql, userRowMapper, user.getRut(), user.getName(), user.getEmail(), user.getPin());
-        return user;
+        return jdbc.update(sql, userRowMapper, user.getRut(), user.getName(), user.getEmail(), user.getPin());
     }
 
     @Override
-    public void deleteById(Long id) {
-        String sql = "DELETE FROM tarjeta_mish.user WHERE iduser = ?";
-        jdbc.update(sql, id);
+    public int deleteByRut(String  rut) {
+        String sql = "DELETE FROM tarjeta_mish.user WHERE rut = ?";
+        return jdbc.update(sql, rut);
     }
 
     @Override
