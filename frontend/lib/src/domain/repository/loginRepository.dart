@@ -19,12 +19,10 @@ class LoginRepository {
         }),
     ).timeout(const Duration(seconds: 10));
 
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
-
     switch (response.statusCode) {
       case 200:
         return LoginResponse.fromJson(jsonDecode(response.body));
+        
       case 400:
         throw Exception('Rut o pin incorrectos');
       case 401:

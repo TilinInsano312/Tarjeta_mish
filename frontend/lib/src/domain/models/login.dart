@@ -15,3 +15,20 @@ class LoginResponse{
 
 
 }
+
+class LoginRequest {
+  final String rut;
+  final String pin;
+
+  LoginRequest({
+    required this.rut,
+    required this.pin,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'rut': rut,
+      'pin': pin,
+    };
+  }
+}

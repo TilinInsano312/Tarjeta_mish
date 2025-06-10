@@ -4,6 +4,7 @@ import 'package:frontend/src/core/app_colors.dart';
 import 'package:frontend/src/domain/models/card.dart' as domain_card;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:frontend/src/domain/repository/cardRepository.dart';
+import 'package:frontend/src/domain/appConfig.dart';
 
 class CardMishInfo extends HookWidget {
   const CardMishInfo({Key? key}) : super(key: key);
@@ -11,13 +12,12 @@ class CardMishInfo extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final repository = useMemoized(() => CardRepository(
-          baseUrl: 'https://api.example.com',
-          token: 'token',
+          baseUrl: AppConfig.baseUrl,
         ));
 
-    final snapshot = useFuture(useMemoized(() => repository.fetchCardInfo()));
+    final snapshot = useFuture(useMemoized(() => repository.getCard()));
 
-    // Estado para mostrar/ocultar datos sensibles
+   
     final showSensitive = useState(false);
     Timer? timer;
 
@@ -28,7 +28,7 @@ class CardMishInfo extends HookWidget {
       if (showSensitive.value) {
         timer?.cancel();
         timer = Timer(const Duration(seconds: 30), () {
-          showSensitive.value = false; // Aquí debe ocultar
+          showSensitive.value = false;
         });
       } else {
         timer?.cancel();
@@ -49,6 +49,7 @@ class CardMishInfo extends HookWidget {
             cardNumber: '1234 5678 9012 3456',
             cardCVV: '369',
             expirationDate: '02/29', 
+            cardHolderName: 'John Doe',
           );
 
     String displayCardNumber() {
@@ -82,7 +83,7 @@ class CardMishInfo extends HookWidget {
         ),
         child: Stack(
           children: [
-            // Información texto
+
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -123,7 +124,7 @@ class CardMishInfo extends HookWidget {
               ],
             ),
 
-            // Logo VISA
+
             Positioned(
               top: 4,
               right: 4,

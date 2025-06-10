@@ -1,26 +1,35 @@
-import 'package:http/http.dart' as http;
+import 'package:frontend/src/domain/appConfig.dart';
+import 'package:frontend/src/domain/repository/baseRepository.dart';
 import 'package:frontend/src/domain/models/Account.dart';
 import 'dart:convert';
 
-class AccountRepository {
-  final String baseUrl;
-  final String token;
-
+class AccountRepository extends BaseRepository{
+  
   AccountRepository({
-    required this.baseUrl,
-    required this.token
-  });
+    required String baseUrl,
+  }) : super(baseUrl: baseUrl);
 
-  Future<Account> fetchBalance() async {
-    final response = await http.get(
-      Uri.parse('$baseUrl/balance'),
-      headers: {'Authorization' : 'Bearer $token'},
-    );
+  Future<Account> getAccount() async {
+    try{
 
-    if(response.statusCode == 200) {
-      return Account.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception('Error al obtener informacion de la cuenta');
+      final response = await authenticatedGet('${AppConfig.accountEndpoint}/1');
+        
+      switch (response.statusCode) {
+      case 200:
+        return Account.fromJson(jsonDecode(response.body));
+      case 400:
+        throw Exception('Rut o pin incorrectos');
+      case 401:
+        throw Exception('Credenciales invalidas');
+      case 500:
+        throw Exception('Error de servidor');
+      default:
+        throw Exception('Error de conexion');
     }
+    } catch(e){
+      throw Exception('Error al obtener la cuenta: $e');
+    }
+
   }
+
 }

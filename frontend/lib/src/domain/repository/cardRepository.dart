@@ -1,26 +1,35 @@
-import 'package:frontend/src/domain/models/card.dart';
-import 'package:http/http.dart' as http;
+import 'package:frontend/src/domain/appConfig.dart';
+import 'package:frontend/src/domain/models/card.dart' as domain_card;
+import 'package:frontend/src/domain/repository/baseRepository.dart';
 import 'dart:convert';
 
-class CardRepository {
-  final String baseUrl;
-  final String token;
-
+class CardRepository extends BaseRepository {
+  
   CardRepository({
-    required this.baseUrl,
-    required this.token
-  });
+    required String baseUrl,
+  }) : super(baseUrl: baseUrl);
 
-  Future<Card> fetchCardInfo() async {
-    final response = await http.get(
-      Uri.parse('$baseUrl/balance'),
-      headers: {'Authorization' : 'Bearer $token'},
-    );
-
-    if(response.statusCode == 200) {
-      return Card.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception('Error al obtener informacion de la tarjeta');
+  Future<domain_card.Card> getCard() async {
+    try {
+      
+      final response = await authenticatedGet('${AppConfig.cardEndpoint}/1');
+      
+      switch (response.statusCode) {
+        case 200:
+          final Map<String, dynamic> jsonResponse = json.decode(response.body);
+          return domain_card.Card.fromJson(jsonResponse);
+        case 400:
+          throw Exception('Error de solicitud incorrecta');
+        case 401:
+          throw Exception('No autorizado');
+        case 500:
+          throw Exception('Error interno del servidor');
+        default:
+          throw Exception('Error desconocido');
+      }
+    } catch (e) {
+      throw Exception('Error al obtener las tarjetas: $e');
     }
   }
+  
 }
