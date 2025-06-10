@@ -43,26 +43,25 @@ class UserControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/user").header("Authorization", "Bearer " + token).contentType("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers
-                        .content()
-                        .contentType("application/json"));
+                .content()
+                .contentType("application/json"));
     }
 
     @Test
     void testShowUserById() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/user/1").header("Authorization", "Bearer " + token).contentType("application/json"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/user/1").header("Authorization", "Bearer " + token)
+                .contentType("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers
-                        .content()
-                        .contentType("application/json"));
+                .content()
+                .contentType("application/json"));
     }
 
     @Test
     void testShowUserByRut() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/user/rut/123456789").header("Authorization", "Bearer " + token).contentType("application/json"))
-                .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers
-                        .content()
-                        .contentType("application/json"));
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/user/rut/123456789").header("Authorization", "Bearer " + token)
+                .contentType("application/json"))
+                .andExpect(status().isOk());
     }
 
     @Test

@@ -32,7 +32,7 @@ public class UserController {
         return ResponseEntity.ok(userService.save(userDTO));
     }
 
-    @PostMapping("/{rut}")
+    @GetMapping("/rut/{rut}")
     public ResponseEntity<UserDTO> getUserByRut(@PathVariable String rut) {
         return userService.findByRut(rut)
                 .map(ResponseEntity::ok)
