@@ -59,7 +59,7 @@ class PinFrame extends HookWidget {
         }
         
       
-        final loginRepository = LoginRepository(baseUrl: AppConfig.baseUrl + '/api/auth');
+        final loginRepository = LoginRepository(baseUrl: AppConfig.baseUrl + '/auth');
         
         try {
        
