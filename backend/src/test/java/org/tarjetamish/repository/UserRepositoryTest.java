@@ -33,8 +33,6 @@ class UserRepositoryTest {
     @Test
     void deleteUser() {
         String rut = "111111111";
-        userRepository.deleteByRut(rut);
-        Optional<User> userOpt = userRepository.findByRut(rut);
-        assertFalse(userOpt.isPresent(), "Usuario con rut debe haber sido eliminado");
+        assertEquals(1, userRepository.deleteByRut(rut), "Usuario debe ser eliminado correctamente");
     }
 }

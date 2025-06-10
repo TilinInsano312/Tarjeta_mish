@@ -31,14 +31,13 @@ public class JdbcUserRepository implements UserRepository {
     @Override
     public int save(User user) {
         String sql = "INSERT INTO tarjeta_mish.user (rut, name, email, pin) VALUES (?, ?, ?, ?)";
-        jdbc.queryForObject(sql, userRowMapper, user.getRut(), user.getName(), user.getEmail(), user.getPin());
-        return 1;
+        return jdbc.update(sql, userRowMapper, user.getRut(), user.getName(), user.getEmail(), user.getPin());
     }
 
     @Override
-    public void deleteByRut(String  rut) {
+    public int deleteByRut(String  rut) {
         String sql = "DELETE FROM tarjeta_mish.user WHERE rut = ?";
-        jdbc.update(sql, rut);
+        return jdbc.update(sql, rut);
     }
 
     @Override

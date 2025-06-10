@@ -13,7 +13,7 @@ public interface UserRepository {
 
     int save(User user);
 
-    void deleteByRut(String rut);
+    int deleteByRut(String rut);
 
     Optional<User> findByRut(String rut);
 

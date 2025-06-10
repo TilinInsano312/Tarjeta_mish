@@ -57,6 +57,15 @@ class UserControllerTest {
     }
 
     @Test
+    void testShowUserByRut() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/user/rut/123456789").header("Authorization", "Bearer " + token).contentType("application/json"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers
+                        .content()
+                        .contentType("application/json"));
+    }
+
+    @Test
     void testCreateUser() throws Exception{
         mockMvc.perform(MockMvcRequestBuilders.post("/api/user").header("Authorization", "Bearer " + token)
                 .contentType("application/json")
