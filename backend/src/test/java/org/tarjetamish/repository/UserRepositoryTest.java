@@ -22,4 +22,19 @@ class UserRepositoryTest {
         assertTrue(userOpt.isPresent(), "Usuario con rut debe existir");
         assertEquals(rut, userOpt.get().getRut());
     }
+
+    @Test
+    void addUser(){
+        String rut = "111111111";
+        User user = new User(0L, rut, "Test", "User", "1234");
+        User savedUser = userRepository.save(user);
+        assertNotNull(savedUser, "Usuario debe ser guardado correctamente");
+    }
+    @Test
+    void deleteUser() {
+        String rut = "111111111";
+        userRepository.deleteByRut(rut);
+        Optional<User> userOpt = userRepository.findByRut(rut);
+        assertFalse(userOpt.isPresent(), "Usuario con rut debe haber sido eliminado");
+    }
 }

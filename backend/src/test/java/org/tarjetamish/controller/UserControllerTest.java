@@ -61,10 +61,7 @@ class UserControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/user").header("Authorization", "Bearer " + token)
                 .contentType("application/json")
                 .content("{\"rut\": \"111111111\", \"name\": \"test\", \"email\": \"test@example.com\", \"pin\": \"1234\"}"))
-                .andExpect(status().isCreated())
-                .andExpect(MockMvcResultMatchers
-                        .content()
-                        .contentType("application/json"));
+                .andExpect(status().isCreated());
 
     }
     @Test

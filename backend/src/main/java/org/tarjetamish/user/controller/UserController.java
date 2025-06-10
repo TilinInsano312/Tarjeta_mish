@@ -39,13 +39,13 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{rut}")
     public ResponseEntity deleteUser(@PathVariable String rut) {
         if (!userService.findByRut(rut).isPresent()) {
             return ResponseEntity.notFound().build();
         } else {
             userService.deleteUser(rut);
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }

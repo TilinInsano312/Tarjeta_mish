@@ -34,8 +34,8 @@ public class UserService {
         );
     }
     public Optional<UserDTO> findByRut(String rut) {
-        return userRepository.findByRut(rut)
-                .map(userConverter::toUserDTO);
+        return Optional.of(userRepository.findByRut(rut)
+                .map(userConverter::toUserDTO).orElseThrow());
     }
 
     public void deleteUser(String rut) {
