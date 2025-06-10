@@ -33,8 +33,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteUser(@PathVariable Long id) {
-        if (!userService.findById(id).isPresent()) {
+    public ResponseEntity deleteUser(@PathVariable String rut) {
+        if (!userService.findById(rut).isPresent()) {
             return ResponseEntity.notFound().build();
         } else {
             userService.deleteUser(id);
