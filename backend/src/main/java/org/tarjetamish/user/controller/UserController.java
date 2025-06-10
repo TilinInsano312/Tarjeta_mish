@@ -1,6 +1,7 @@
 package org.tarjetamish.user.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.tarjetamish.user.dto.UserDTO;
@@ -28,8 +29,8 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity createUser(@RequestBody UserDTO userDTO) {
-        return ResponseEntity.ok(userService.save(userDTO));
+    public ResponseEntity<Integer> createUser(@RequestBody UserDTO userDTO) {
+        return ResponseEntity.status(201).body(userService.save(userDTO));
     }
 
     @GetMapping("/rut/{rut}")
