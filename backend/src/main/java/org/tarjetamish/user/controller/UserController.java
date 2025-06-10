@@ -32,12 +32,19 @@ public class UserController {
         return ResponseEntity.ok(userService.save(userDTO));
     }
 
+    @PostMapping("/{rut}")
+    public ResponseEntity<UserDTO> getUserByRut(@PathVariable String rut) {
+        return userService.findByRut(rut)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity deleteUser(@PathVariable String rut) {
-        if (!userService.findById(rut).isPresent()) {
+        if (!userService.findByRut(rut).isPresent()) {
             return ResponseEntity.notFound().build();
         } else {
-            userService.deleteUser(id);
+            userService.deleteUser(rut);
         }
         return ResponseEntity.ok().build();
     }

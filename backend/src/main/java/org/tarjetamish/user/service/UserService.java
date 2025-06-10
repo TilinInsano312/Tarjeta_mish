@@ -33,6 +33,10 @@ public class UserService {
                 userRepository.save(userConverter.toUserEntity(userDTO))
         );
     }
+    public Optional<UserDTO> findByRut(String rut) {
+        return userRepository.findByRut(rut)
+                .map(userConverter::toUserDTO);
+    }
 
     public void deleteUser(String rut) {
         userRepository.deleteByRut(rut);
