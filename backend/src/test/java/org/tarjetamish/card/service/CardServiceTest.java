@@ -25,12 +25,12 @@ public class CardServiceTest {
 
     @Test
     void testFindById() {
-        assertTrue(cardService.findById(26L).isPresent(), "Card with ID 1 should exist");
+        assertTrue(cardService.findById(1L).isPresent(), "Card with ID 1 should exist");
     }
 
     @Test
     void testFindByNumber() {
-        String number = "1234567890121256";
+        String number = "123456789010256";
         assertTrue(cardService.findByNumber(number).isPresent(), "Card with number " + number + " should exist");
     }
 

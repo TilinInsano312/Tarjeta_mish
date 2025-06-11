@@ -8,3 +8,10 @@ CREATE TABLE "user" (
                         email VARCHAR(255),
                         pin VARCHAR(4) NOT NULL
 );
+CREATE TABLE card (
+                        idcard BIGINT AUTO_INCREMENT PRIMARY KEY,
+                        number VARCHAR(16) NOT NULL UNIQUE,
+                        cvv VARCHAR(3) NOT NULL,
+                        expirationdate date NOT NULL,
+                        cardholdername VARCHAR(60) NOT NULL
+);
