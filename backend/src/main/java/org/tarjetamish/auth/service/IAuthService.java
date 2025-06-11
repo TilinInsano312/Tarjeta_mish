@@ -1,6 +1,6 @@
 package org.tarjetamish.auth.service;
 
-import org.tarjetamish.account.dto.request.UserRegisterDTO;
+import org.tarjetamish.auth.dto.request.UserRegisterDTO;
 
 public interface IAuthService {
     String login(String rut, int pin);
