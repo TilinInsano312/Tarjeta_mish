@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.tarjetamish.account.dto.request.UserRegisterDTO;
+import org.tarjetamish.auth.dto.request.UserRegisterDTO;
 import org.tarjetamish.auth.exception.InvalidCredentialsException;
 import org.tarjetamish.auth.exception.UserAlreadyExistException;
 import org.tarjetamish.auth.exception.UserNotFoundException;

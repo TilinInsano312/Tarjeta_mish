@@ -1,4 +1,4 @@
-package org.tarjetamish.controller;
+package org.tarjetamish.user.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

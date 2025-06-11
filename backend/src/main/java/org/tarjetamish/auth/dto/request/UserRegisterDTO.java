@@ -1,4 +1,4 @@
-package org.tarjetamish.account.dto.request;
+package org.tarjetamish.auth.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
