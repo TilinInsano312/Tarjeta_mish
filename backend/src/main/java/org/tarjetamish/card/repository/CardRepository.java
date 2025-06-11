@@ -11,8 +11,13 @@ public interface CardRepository {
 
     Optional<Card> findById(Long id);
 
-    Card save(Card card);
+    Optional<Card> findByNumber(String number);
+    int save(Card card);
 
     void deleteById(Long id);
+
+
+
+    int deleteCardByNumber(String number);
 
 }

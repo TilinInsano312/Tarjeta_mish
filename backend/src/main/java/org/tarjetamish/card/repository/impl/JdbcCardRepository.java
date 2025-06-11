@@ -30,15 +30,27 @@ public class JdbcCardRepository implements CardRepository {
     }
 
     @Override
-    public Card save(Card card) {
+    public int save(Card card) {
         String sql = "INSERT INTO tarjeta_mish.card (number, cvv, expirationdate, cardholdername) VALUES (?, ?, ?, ?)";
-        return jdbc.queryForObject(sql, cardRowMapper, card.getNumber(), card.getCvv(), card.getExpirationDate(), card.getCardHolderName());
+        return jdbc.update(sql, card.getNumber(), card.getCvv(), card.getExpirationDate(), card.getCardHolderName());
     }
 
     @Override
     public void deleteById(Long id) {
         String sql = "DELETE FROM tarjeta_mish.card WHERE idcard = ?";
         jdbc.update(sql, id);
-
     }
+
+    @Override
+    public Optional<Card> findByNumber(String number) {
+        String sql = "SELECT * FROM tarjeta_mish.card WHERE number = ?";
+        return Optional.ofNullable(jdbc.queryForObject(sql, cardRowMapper, number));
+    }
+
+    @Override
+    public int deleteCardByNumber(String number) {
+        String sql = "DELETE FROM tarjeta_mish.card WHERE number = ?";
+        return jdbc.update(sql, number);
+    }
+
 }

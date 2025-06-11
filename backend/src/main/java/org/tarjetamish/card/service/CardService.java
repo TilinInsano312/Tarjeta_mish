@@ -26,15 +26,21 @@ public class CardService {
         return Optional.ofNullable(cardRepository.findById(id).map(cardConverter::toCardDTO).orElseThrow(CardNotFoundException::new));
     }
 
-    public CardDTO save(CardDTO card) {
-        return cardConverter.toCardDTO(
-                cardRepository.save(cardConverter.toCard(card))
-        );
+    public Optional<CardDTO> findByNumber(String number) {
+        return cardRepository.findByNumber(number)
+                .map(cardConverter::toCardDTO);
+    }
+
+    public int save(CardDTO cardDTO) {
+        return cardRepository.save(cardConverter.toCard(cardDTO));
+
     }
     public void deleteCard(Long id) {
         cardRepository.deleteById(id);
     }
 
+    public int deleteCardByNumber(String number) {
+        return cardRepository.deleteCardByNumber(number);
+    }
 
-    //Do method to get the data of the card
 }
