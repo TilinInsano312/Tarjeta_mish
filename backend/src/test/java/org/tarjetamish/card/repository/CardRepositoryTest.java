@@ -19,7 +19,7 @@ public class CardRepositoryTest {
 
     @Test
     void findByNumber() {
-        String number= "1234567890121256";
+        String number= "123456789010256";
         Optional<Card> card = cardRepository.findByNumber(number);
         assertTrue(card.isPresent(), "Card with number  should exist");
     }
