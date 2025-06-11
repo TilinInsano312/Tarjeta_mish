@@ -3,6 +3,7 @@ package org.tarjetamish.card.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.tarjetamish.card.dto.CardDTO;
 
 import java.util.Date;
@@ -10,7 +11,8 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
+@ActiveProfiles("test")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CardServiceTest {
 
     @Autowired
