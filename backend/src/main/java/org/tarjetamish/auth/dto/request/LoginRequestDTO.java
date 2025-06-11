@@ -1,2 +1,2 @@
-package org.tarjetamish.account.dto.request;
+package org.tarjetamish.auth.dto.request;
 public record LoginRequestDTO(String rut, int pin) {}
