@@ -1,10 +1,11 @@
-package org.tarjetamish.service;
+package org.tarjetamish.user.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.tarjetamish.user.dto.UserDTO;
 import org.tarjetamish.user.service.UserService;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -22,16 +23,19 @@ public class UserServiceTest {
     void testFindById() {
         assertTrue(userService.findById(1L).isPresent(), "User with ID 1 should exist");
     }
+
     @Test
     void testFindByRut() {
         String rut = "123456789";
         assertTrue(userService.findByRut(rut).isPresent(), "User with RUT " + rut + " should exist");
     }
+
     @Test
     void testSaveUser() {
-        int result = userService.save(new UserDTO(0L,"111111111", "Test", "User", "1234"));
+        int result = userService.save(new UserDTO(0L, "111111111", "Test", "User", "1234"));
         assertEquals(1, result, "User should be saved successfully");
     }
+
     @Test
     void testDeleteUser() {
         String rut = "111111111";
