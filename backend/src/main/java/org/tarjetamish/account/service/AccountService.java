@@ -30,10 +30,8 @@ public class AccountService {
         return Optional.ofNullable(accountRepository.findByAccountNumber(accountNumber).map(accountConverter::toAccountDTO).orElseThrow(AccountNotFoundException::new));
     }
 
-    public AccountDTO save(AccountDTO account) {
-        return accountConverter.toAccountDTO(
-                accountRepository.save(accountConverter.toAccount(account))
-        );
+    public int save(AccountDTO account) {
+        return accountRepository.save(accountConverter.toAccount(account));
     }
 
     public void deleteAccount(Long id) {

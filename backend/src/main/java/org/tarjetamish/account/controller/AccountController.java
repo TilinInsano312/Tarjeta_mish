@@ -31,7 +31,7 @@ public class AccountController {
                 .orElse(ResponseEntity.notFound().build());
     }
     @PostMapping
-    public ResponseEntity<AccountDTO> createAccount(@RequestBody AccountDTO accountDTO) {
+    public ResponseEntity<Integer> createAccount(@RequestBody AccountDTO accountDTO) {
         return ResponseEntity.ok(accountService.save(accountDTO));
     }
     @DeleteMapping("/{id}")

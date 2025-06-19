@@ -2,12 +2,17 @@ package org.tarjetamish.account.repository.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.tarjetamish.account.model.Account;
 import org.tarjetamish.account.repository.AccountRepository;
 import org.tarjetamish.account.mapper.impl.AccountRowMapper;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
@@ -35,9 +40,22 @@ public class JdbcAccountRepository implements AccountRepository {
     }
 
     @Override
-    public Account save(Account account) {
+    public int save(Account account) {
         String sql = "INSERT INTO tarjeta_mish.account (balance, accountnumber, idcard, iduser) VALUES (?, ?, ?, ?)";
-        return jdbc.queryForObject(sql, accountRowMapper, account.getBalance(), account.getAccountNumber(), account.getIdCard(), account.getIdUser());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbc.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, account.getBalance());
+            ps.setInt(2, account.getAccountNumber());
+            ps.setLong(3, account.getIdCard());
+            ps.setLong(4, account.getIdUser());
+            return ps;
+        }, keyHolder);
+
+        Map<String, Object> keys = keyHolder.getKeys();
+        account.setId(((Number) keys.get("idaccount")).longValue());
+        return 1;
     }
 
     @Override
