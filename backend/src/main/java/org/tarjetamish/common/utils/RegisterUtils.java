@@ -20,7 +20,7 @@ public class RegisterUtils {
         return sb.toString();
     }
 
-    public Date generateExpirateDate() {
+    public Date generateExpirationDate() {
         LocalDate expiry = LocalDate.now().plusYears(5);
         return Date.from(expiry.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }

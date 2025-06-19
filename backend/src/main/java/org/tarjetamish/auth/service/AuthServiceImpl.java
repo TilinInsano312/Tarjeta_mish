@@ -60,7 +60,7 @@ public class AuthServiceImpl implements IAuthService {
         card.setCardHolderName(user.getName());
         card.setNumber(registerUtils.generateCardNumber());
         card.setCvv(registerUtils.generateCvv());
-        card.setExpirationDate(registerUtils.generateExpirateDate());
+        card.setExpirationDate(registerUtils.generateExpirationDate());
         cardRepository.save(card);
 
         Account account = new Account();
