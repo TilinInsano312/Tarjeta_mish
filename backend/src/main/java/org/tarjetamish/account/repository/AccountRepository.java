@@ -13,7 +13,7 @@ public interface AccountRepository {
 
     Optional<Account> findByAccountNumber(int accountNumber);
 
-    Account save(Account account);
+    int save(Account account);
 
     void deleteById(Long id);
 

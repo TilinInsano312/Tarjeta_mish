@@ -2,12 +2,17 @@ package org.tarjetamish.user.repository.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.tarjetamish.user.model.User;
 import org.tarjetamish.user.repository.UserRepository;
 import org.tarjetamish.user.mapper.impl.UserRowMapper;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -31,7 +36,20 @@ public class JdbcUserRepository implements UserRepository {
     @Override
     public int save(User user) {
         String sql = "INSERT INTO tarjeta_mish.\"user\" (rut, name, email, pin) VALUES (?, ?, ?, ?)";
-        return jdbc.update(sql, user.getRut(), user.getName(), user.getEmail(), user.getPin());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbc.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, user.getRut());
+            ps.setString(2, user.getName());
+            ps.setString(3, user.getEmail());
+            ps.setString(4, user.getPin());
+            return ps;
+        }, keyHolder);
+
+        Map<String, Object> keys = keyHolder.getKeys();
+        user.setId(((Number) keys.get("iduser")).longValue());
+        return 1;
     }
 
     @Override

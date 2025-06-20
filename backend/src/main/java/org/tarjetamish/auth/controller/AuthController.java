@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.tarjetamish.auth.dto.request.LoginRequestDTO;
+import org.tarjetamish.auth.dto.request.UserRegisterDTO;
 import org.tarjetamish.auth.service.IAuthService;
+
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -19,5 +21,10 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("token", token));
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody UserRegisterDTO userRegisterDTO) {
+        authService.register(userRegisterDTO);
+        return ResponseEntity.ok("User registered successfully");
+    }
 }
     
