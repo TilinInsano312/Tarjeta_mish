@@ -2,8 +2,11 @@ package org.tarjetamish.auth.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import org.tarjetamish.common.annotations.Rut;
+
 public record UserRegisterDTO (
         @NotBlank(message = "Rut is mandatory")
+        @Rut
         String rut,
 
         @NotBlank(message = "Name is mandatory")
