@@ -10,5 +10,8 @@ public enum Bank {
     BANCO_CONSORCIO,
     BANCO_INTERNACIONAL,
     BANCO_SECURITY,
-    BANCO_FALABELLA
+    BANCO_FALABELLA;
+    public int getIndex() {
+        return ordinal() + 1;
+    }
 }

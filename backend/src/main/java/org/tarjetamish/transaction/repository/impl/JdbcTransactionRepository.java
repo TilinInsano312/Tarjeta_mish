@@ -18,25 +18,25 @@ public class JdbcTransactionRepository implements TransactionRepository {
     private final TransactionRowMapper transactionRowMapper;
     @Override
     public List<Transaction> findAll() {
-        String sql = "SELECT * FROM tarjeta_mish.transaction";
+        String sql = "SELECT * FROM tarjeta_mish.movement";
         return jdbc.query(sql, transactionRowMapper);
     }
 
     @Override
     public Optional<Transaction> findById(Long id) {
-        String sql = "SELECT * FROM tarjeta_mish.transaction WHERE idtransaction = ?";
+        String sql = "SELECT * FROM tarjeta_mish.movement WHERE idmovement = ?";
         return Optional.ofNullable(jdbc.queryForObject(sql, transactionRowMapper, id));
     }
 
     @Override
-    public Transaction save(Transaction transaction) {
-        String sql = "INSERT INTO tarjeta_mish.transaction (amount ,name , date, description, rutdestination, accountdestination, rutorigin, accountorigin, idtypemovement, idbank, idaccount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        return jdbc.queryForObject(sql, transactionRowMapper, transaction.getAmount(), transaction.getName(), transaction.getDate(), transaction.getDescription(), transaction.getRutDestination(), transaction.getAccountDestination(), transaction.getRutOrigin(), transaction.getAccountOrigin(), transaction.getTypeTransaction().name(), transaction.getBank().name(), transaction.getIdAccount());
+    public int save(Transaction transaction) {
+        String sql = "INSERT INTO tarjeta_mish.movement (amount ,name , date, description, rutdestination, accountdestination, rutorigin, accountorigin, idtypemovement, idbank, idaccount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        return jdbc.update(sql, transaction.getAmount(), transaction.getName(), transaction.getDate(), transaction.getDescription(), transaction.getRutDestination(), transaction.getAccountDestination(), transaction.getRutOrigin(), transaction.getAccountOrigin(), transaction.getTypeTransaction().ordinal() ,transaction.getBank().ordinal(), transaction.getIdAccount());
     }
 
     @Override
-    public void deleteById(Long id) {
-        String sql = "DELETE FROM tarjeta_mish.transaction WHERE idtransaction = ?";
-        jdbc.update(sql, id);
+    public int deleteById(Long id) {
+        String sql = "DELETE FROM tarjeta_mish.movement WHERE idmovement = ?";
+        return jdbc.update(sql,transactionRowMapper, id);
     }
 }

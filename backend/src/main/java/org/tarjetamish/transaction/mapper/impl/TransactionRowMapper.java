@@ -14,19 +14,19 @@ public class TransactionRowMapper implements RowMapper<Transaction> {
     @Override
     public Transaction mapRow(ResultSet rs, int rowNum) throws SQLException {
         Transaction transaction = new Transaction();
-        transaction.setId(rs.getLong("idtransaction"));
+        transaction.setId(rs.getLong("idmovement"));
         transaction.setAmount(rs.getInt("amount"));
         transaction.setName(rs.getString("name"));
         transaction.setDate(rs.getDate("date"));
         transaction.setDescription(rs.getString("description"));
-        transaction.setRutDestination(rs.getString("rutdestino"));
-        transaction.setAccountDestination(rs.getString("cuentadestino"));
-        transaction.setRutOrigin(rs.getString("rutorigen"));
-        transaction.setAccountOrigin(rs.getString("cuentaorigen"));
-        String typeTransaction = rs.getString("typetransaction");
-        transaction.setTypeTransaction(TypeTransaction.valueOf(typeTransaction));
-        String bank = rs.getString("bank");
-        transaction.setBank(Bank.valueOf(bank));
+        transaction.setRutDestination(rs.getString("rutdestination"));
+        transaction.setAccountDestination(rs.getString("accountdestination"));
+        transaction.setRutOrigin(rs.getString("rutorigin"));
+        transaction.setAccountOrigin(rs.getString("accountorigin"));
+        int typeTransaction = rs.getInt("idtypemovement");
+        transaction.setTypeTransaction(TypeTransaction.values()[typeTransaction-1]); // Assuming idtypemovement is 1-based index
+        int bank = rs.getInt("idbank");
+        transaction.setBank(Bank.values()[typeTransaction]);
         transaction.setIdAccount(rs.getLong("idaccount"));
         return transaction;
     }
