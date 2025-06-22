@@ -1,18 +1,18 @@
 import 'package:frontend/src/domain/appConfig.dart';
-import 'package:frontend/src/domain/repository/baseRepository.dart';
+import 'package:frontend/src/domain/services/base_service.dart';
 import 'package:frontend/src/domain/models/Account.dart';
 import 'dart:convert';
 
-class AccountRepository extends BaseRepository{
+class AccountService extends BaseService{
   
-  AccountRepository({
+  AccountService({
     required String baseUrl,
   }) : super(baseUrl: baseUrl);
 
   Future<Account> getAccount() async {
     try{
 
-      final response = await authenticatedGet('${AppConfig.accountEndpoint}/1');
+      final response = await authenticatedGet('${AppConfig.accountEndpoint}/2');
         
       switch (response.statusCode) {
       case 200:

@@ -1,11 +1,11 @@
 import 'package:frontend/src/domain/appConfig.dart';
-import 'package:frontend/src/domain/repository/baseRepository.dart';
+import 'package:frontend/src/domain/services/base_service.dart';
 import 'package:frontend/src/domain/models/movement.dart';
 import 'dart:convert';
 
-class MovementRepository extends BaseRepository {
+class MovementService extends BaseService{
   
-  MovementRepository({
+  MovementService({
     required String baseUrl,
   }) : super(baseUrl: baseUrl);
 

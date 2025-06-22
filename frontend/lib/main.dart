@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:frontend/src/features/auth_pin/presentation/frames/pin_frame.dart';
 import 'package:frontend/src/features/dashboard/presentation/frames/home_frame.dart';
 import 'package:frontend/src/features/welcome/presentation/frames/welcome_frame.dart';
-import 'package:frontend/src/core/services/authService.dart';
+import 'package:frontend/src/domain/services/auth_service.dart';
 
 void main() {
   runApp(const MyApp());

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/core/app_colors.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:frontend/src/domain/repository/AccountRepository.dart';
+import 'package:frontend/src/domain/services/account_service.dart';
 import 'package:frontend/src/domain/models/Account.dart';
 import 'package:frontend/src/domain/appConfig.dart';
 
@@ -11,7 +11,7 @@ class BalanceCard extends HookWidget {
   @override
   Widget build(BuildContext context) {
  
-    final repository = useMemoized(() => AccountRepository(
+    final repository = useMemoized(() => AccountService(
       baseUrl: AppConfig.baseUrl, 
     ));
 
@@ -65,7 +65,7 @@ class BalanceCard extends HookWidget {
             children: [
               Text(
                 '\$ ${info?.balance ?? 0}',
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                   color: AppColors.blackLetter,
                   fontWeight: FontWeight.bold,
                 ),
@@ -80,12 +80,16 @@ class BalanceCard extends HookWidget {
                           color: AppColors.blackLetter,
                         ),
                         children: [
-                          const TextSpan(text: 'N° de cuenta: '),
+                          const TextSpan(
+                            text: 'N° de cuenta: ',
+                            style: TextStyle(fontSize: 16),
+                          ),
                           TextSpan(
                             text: info?.accountNumber ?? 'N/A',
                             style: const TextStyle(
-                              color: AppColors.accent,
+                              color: AppColors.blackLetter,
                               fontWeight: FontWeight.bold,
+                              fontSize: 16,
                             ),
                           ),
                         ],

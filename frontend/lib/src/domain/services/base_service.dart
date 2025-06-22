@@ -1,12 +1,12 @@
-import 'package:frontend/src/core/services/authService.dart';
+import 'package:frontend/src/domain/services/auth_service.dart';
 import 'package:http/http.dart' as http;
 
-abstract class BaseRepository{
+abstract class BaseService{
 
   final String baseUrl;
   final AuthService _authService = AuthService();
 
-  BaseRepository({
+  BaseService({
     required this.baseUrl,
   });
 

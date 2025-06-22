@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/src/core/app_colors.dart';
 import 'package:frontend/src/domain/models/card.dart' as domain_card;
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:frontend/src/domain/repository/cardRepository.dart';
+import 'package:frontend/src/domain/services/card_service.dart';
 import 'package:frontend/src/domain/appConfig.dart';
 
 class CardMishInfo extends HookWidget {
@@ -11,7 +11,7 @@ class CardMishInfo extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final repository = useMemoized(() => CardRepository(
+    final repository = useMemoized(() => CardService(
           baseUrl: AppConfig.baseUrl,
         ));
 
@@ -68,7 +68,7 @@ class CardMishInfo extends HookWidget {
       onTap: toggleShow,
       child: Container(
         width: double.infinity,
-        height: 120,
+        height: 150,
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
         decoration: BoxDecoration(
           color: AppColors.neutralWhite,
@@ -89,33 +89,33 @@ class CardMishInfo extends HookWidget {
               children: [
                 Text(
                   'Mi tarjeta Mish',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: AppColors.blackLetter,
                         fontWeight: FontWeight.w600,
                       ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 16),
                 Text(
                   displayCardNumber(),
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         letterSpacing: 2,
                         color: AppColors.blackLetter,
                       ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 16),
                 Row(
                   children: [
                     Text(
                       'Expira: ${displayExpiration()}',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             color: AppColors.blackLetter,
                           ),
                     ),
                     const SizedBox(width: 32),
                     Text(
                       'CVV: ${displayCvv()}',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             color: AppColors.blackLetter,
                           ),
                     ),

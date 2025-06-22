@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/src/core/app_colors.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:frontend/src/domain/models/movement.dart';
-import 'package:frontend/src/domain/repository/movementRepository.dart';
+import 'package:frontend/src/domain/services/movement_service.dart';
 import 'package:frontend/src/domain/appConfig.dart';
 
 class MovementsCard extends HookWidget {
@@ -11,7 +11,7 @@ class MovementsCard extends HookWidget {
   @override
   Widget build(BuildContext context) {
     
-    final repository = useMemoized(() => MovementRepository(
+    final repository = useMemoized(() => MovementService(
         baseUrl: AppConfig.baseUrl,
      ));
     
@@ -112,7 +112,7 @@ class MovementsCard extends HookWidget {
                             ),
                             Text(
                               '${isNegative ? '-' : '+'} \$ ${movement.amount.toString()}',
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                                 color: isNegative ? AppColors.errorColor : AppColors.successColor,
                                 fontWeight: FontWeight.bold,
                               ),
