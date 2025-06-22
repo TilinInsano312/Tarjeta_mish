@@ -14,7 +14,7 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TransactionServiceTest {
+class TransactionServiceTest {
 
     @Autowired
     private TransactionService transactionService;
