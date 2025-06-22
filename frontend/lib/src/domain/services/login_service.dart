@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'package:frontend/src/domain/models/login.dart';
 import 'package:http/http.dart' as http;
 
-class LoginRepository {
+class LoginService {
 
   final String baseUrl;
 
-  LoginRepository({required this.baseUrl});
+  LoginService({required this.baseUrl});
 
   Future<LoginResponse> login (String rut, int pin) async {
    try{

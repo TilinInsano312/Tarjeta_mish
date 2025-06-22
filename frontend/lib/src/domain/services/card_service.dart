@@ -1,18 +1,18 @@
 import 'package:frontend/src/domain/appConfig.dart';
 import 'package:frontend/src/domain/models/card.dart' as domain_card;
-import 'package:frontend/src/domain/repository/baseRepository.dart';
+import 'package:frontend/src/domain/services/base_service.dart';
 import 'dart:convert';
 
-class CardRepository extends BaseRepository {
+class CardService extends BaseService {
   
-  CardRepository({
+  CardService({
     required String baseUrl,
   }) : super(baseUrl: baseUrl);
 
   Future<domain_card.Card> getCard() async {
     try {
       
-      final response = await authenticatedGet('${AppConfig.cardEndpoint}/1');
+      final response = await authenticatedGet('${AppConfig.cardEndpoint}/26');
       
       switch (response.statusCode) {
         case 200:

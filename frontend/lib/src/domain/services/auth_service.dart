@@ -1,5 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:frontend/src/domain/repository/loginRepository.dart';
+import 'package:frontend/src/domain/services/login_service.dart';
 import 'package:frontend/src/domain/appConfig.dart';
 
 
@@ -20,9 +20,9 @@ class AuthService {
 
   Future<bool> login(String rut, int pin) async {
     try {
-        final loginRepository = LoginRepository(baseUrl: AppConfig.baseUrl+'/auth');
+        final loginService = LoginService(baseUrl: AppConfig.baseUrl+'/auth');
       
-      final loginResponse = await loginRepository.login(rut, pin);
+      final loginResponse = await loginService.login(rut, pin);
       
         await saveToken(loginResponse.token);
         await saveUserRut(rut);

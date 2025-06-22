@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
-import 'package:frontend/src/core/services/authService.dart';
-import 'package:frontend/src/domain/repository/loginRepository.dart';
+import 'package:frontend/src/domain/services/auth_service.dart';
+import 'package:frontend/src/domain/services/login_service.dart';
 import 'package:frontend/src/domain/appConfig.dart';
 
 //const
@@ -10,8 +10,8 @@ const Color backgroundColor = Color(0xFF39c7c4);
 const Color digitColor = Color(0xff3D5165);
 const double keySize = 80.0;
 const int digitFontSize = 32;
-const double spacingH = 40.0;
-const double spacingV = 40.0;
+const double spacingH = 80.0;
+const double spacingV = 80.0;
 
 class PinFrame extends HookWidget {
   const PinFrame({Key? key}) : super(key: key);
@@ -59,13 +59,13 @@ class PinFrame extends HookWidget {
         }
         
       
-        final loginRepository = LoginRepository(baseUrl: AppConfig.baseUrl + '/auth');
+        final loginService = LoginService(baseUrl: AppConfig.baseUrl + '/auth');
         
         try {
        
           final pinInt = int.parse(pin.value);
           
-          final loginResponse = await loginRepository.login(userRut, pinInt);
+          final loginResponse = await loginService.login(userRut, pinInt);
 
           await authService.saveToken(loginResponse.token);
 
@@ -130,17 +130,6 @@ class PinFrame extends HookWidget {
           width: keySize,
           height: keySize,
           alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 4,
-                offset: Offset(0, 2),
-              ),
-            ],
-          ),
           child: icon != null
               ? Icon(icon, size: digitFontSize.toDouble(), color: digitColor)
               : (digit != null
@@ -195,8 +184,8 @@ class PinFrame extends HookWidget {
               children: List.generate(4, (i) {
                 return Container(
                   margin: EdgeInsets.symmetric(horizontal: 12),
-                  width: 14,
-                  height: 14,
+                  width: 16,
+                  height: 16,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: i < pin.value.length ? Colors.white : Colors.white38,
@@ -223,7 +212,7 @@ class PinFrame extends HookWidget {
 
             Center(
               child: SizedBox(
-                width: keySize * 3 + spacingH * 2,
+                width: 330,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -234,7 +223,7 @@ class PinFrame extends HookWidget {
                       ['←','0',''],
                     ])
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: spacingV/2),
+                        padding: EdgeInsets.symmetric(vertical: 20),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

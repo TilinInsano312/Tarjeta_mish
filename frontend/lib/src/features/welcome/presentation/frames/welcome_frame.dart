@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:frontend/src/core/app_colors.dart';
-import 'package:frontend/src/core/services/authService.dart';
+import 'package:frontend/src/domain/services/auth_service.dart';
 
 class WelcomeFrame extends HookWidget {
   const WelcomeFrame({Key? key}) : super(key: key);
