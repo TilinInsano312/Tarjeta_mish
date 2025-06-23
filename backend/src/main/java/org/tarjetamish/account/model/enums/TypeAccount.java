@@ -5,9 +5,4 @@ public enum TypeAccount {
     CUENTA_VISTA,
     CUENTA_DE_AHORRO,
     CUENTA_RUT;
-    public int getIndex() {
-        return ordinal() + 1;
-    }
-
-
 }

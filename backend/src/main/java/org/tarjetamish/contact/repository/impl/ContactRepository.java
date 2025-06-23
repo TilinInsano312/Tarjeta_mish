@@ -17,5 +17,5 @@ public interface ContactRepository {
 
     int save(Contact contact);
 
-    int deleteById(int id);
+    int deleteById(Long id);
 }

@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import org.tarjetamish.contact.model.Contact;
 import org.tarjetamish.account.model.enums.Bank;
 import org.tarjetamish.account.model.enums.TypeAccount;
-import org.tarjetamish.transaction.model.enums.TypeTransaction;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

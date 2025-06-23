@@ -1,7 +1,6 @@
 package org.tarjetamish.user.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.tarjetamish.user.dto.UserDTO;
@@ -41,8 +40,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{rut}")
-    public ResponseEntity deleteUser(@PathVariable String rut) {
-        if (!userService.findByRut(rut).isPresent()) {
+    public ResponseEntity<Integer> deleteUser(@PathVariable String rut) {
+        if (userService.findByRut(rut).isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
             userService.deleteUser(rut);

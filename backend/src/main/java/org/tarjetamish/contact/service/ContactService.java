@@ -40,7 +40,7 @@ public class ContactService {
         return contactRepository.save(contactConverter.toContact(contact));
     }
 
-    public int deleteContact(int id) {
+    public int deleteContact(Long id) {
         return contactRepository.deleteById(id);
     }
 

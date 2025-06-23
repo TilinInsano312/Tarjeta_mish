@@ -45,7 +45,7 @@ public class JdbcContactRepository implements ContactRepository {
     }
 
     @Override
-    public int deleteById(int id) {
+    public int deleteById(Long id) {
         String sql = "DELETE FROM tarjeta_mish.contact WHERE idcontact = ?";
         return jdbc.update(sql, id);
     }
