@@ -22,6 +22,12 @@ public class ContactService {
                 .toList();
     }
 
+    public List<ContactDTO> findByIdUser(int iduser) {
+        return contactRepository.findById(iduser).stream()
+                .map(contactConverter::toContactDTO)
+                .toList();
+    }
+
     public Optional<ContactDTO> findByName(String name) {
         return Optional.ofNullable(contactRepository.findByName(name).map(contactConverter::toContactDTO).orElseThrow(ContactNotFoundException::new));
     }
@@ -30,14 +36,12 @@ public class ContactService {
         return Optional.ofNullable(contactRepository.findByAlias(alias).map(contactConverter::toContactDTO).orElseThrow(ContactNotFoundException::new));
     }
 
-    public ContactDTO save(ContactDTO contact) {
-        return contactConverter.toContactDTO(
-                contactRepository.save(contactConverter.toContact(contact))
-        );
+    public int save(ContactDTO contact) {
+        return contactRepository.save(contactConverter.toContact(contact));
     }
 
-    public void deleteContact(Long id) {
-        contactRepository.deleteById(id);
+    public int deleteContact(int id) {
+        return contactRepository.deleteById(id);
     }
 
 }
