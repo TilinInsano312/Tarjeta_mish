@@ -27,14 +27,12 @@ public class TransactionService {
         return Optional.ofNullable(transactionRepository.findById(id).map(transactionConverter::toTransactionDTO).orElseThrow(TransactionNotFoundException::new));
     }
 
-    public TransactionDTO save(TransactionDTO transactionDTO) {
-        return transactionConverter.toTransactionDTO(
-                transactionRepository.save(transactionConverter.toTransaction(transactionDTO))
-        );
+    public int save(TransactionDTO transactionDTO) {
+        return transactionRepository.save(transactionConverter.toTransaction(transactionDTO));
     }
 
-    public void deleteTransaction(Long id) {
-        transactionRepository.deleteById(id);
+    public int deleteTransaction(Long id) {
+       return transactionRepository.deleteById(id);
     }
 }
 

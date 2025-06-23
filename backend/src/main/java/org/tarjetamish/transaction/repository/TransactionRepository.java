@@ -10,7 +10,7 @@ public interface TransactionRepository {
 
     Optional<Transaction> findById(Long id);
 
-    Transaction save(Transaction transaction);
+    int save(Transaction transaction);
 
-    void deleteById(Long id);
+    int deleteById(Long id);
 }

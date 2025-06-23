@@ -28,17 +28,14 @@ public class TransactionController {
     }
 
     @PostMapping
-    public ResponseEntity createTransaction(@RequestBody TransactionDTO transactionDTO) {
-        return ResponseEntity.ok(transactionService.save(transactionDTO));
+    public ResponseEntity<Integer> createTransaction(@RequestBody TransactionDTO transactionDTO) {
+        return ResponseEntity.status(201).body(transactionService.save(transactionDTO));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteTransaction(@PathVariable Long id) {
+    public ResponseEntity<Integer> deleteTransaction(@PathVariable Long id) {
         return transactionService.findById(id)
-                .map(transaction -> {
-                    transactionService.deleteTransaction(id);
-                    return ResponseEntity.ok().build();
-                })
+                .map(transaction -> ResponseEntity.ok(transactionService.deleteTransaction(id)))
                 .orElse(ResponseEntity.notFound().build());
     }
 }
