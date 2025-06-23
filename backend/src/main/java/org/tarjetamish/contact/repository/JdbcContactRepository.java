@@ -21,7 +21,11 @@ public class JdbcContactRepository implements ContactRepository {
         String sql = "SELECT * FROM tarjeta_mish.contact";
         return jdbc.query(sql, contactRowMapper);
     }
-
+    @Override
+    public List<Contact> findById(int iduser) {
+        String sql = "SELECT * FROM tarjeta_mish.contact WHERE iduser = ?";
+        return jdbc.query(sql, contactRowMapper, iduser);
+    }
     @Override
     public Optional<Contact> findByName(String name) {
         String sql = "SELECT * FROM tarjeta_mish.contact WHERE name = ?";
@@ -35,14 +39,14 @@ public class JdbcContactRepository implements ContactRepository {
     }
 
     @Override
-    public Contact save(Contact contact) {
+    public int save(Contact contact) {
         String sql = "INSERT INTO tarjeta_mish.contact (name, numbaccount, email, alias, typeaccount, bank, iduser) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        return jdbc.queryForObject(sql, contactRowMapper, contact.getName(), contact.getAccountNumber(), contact.getEmail(), contact.getAlias(), contact.getTypeAccount().name(), contact.getBank().name(), contact.getIdUser());
+        return jdbc.update(sql, contactRowMapper, contact.getName(), contact.getAccountNumber(), contact.getEmail(), contact.getAlias(), contact.getTypeAccount().name(), contact.getBank().name(), contact.getIdUser());
     }
 
     @Override
-    public void deleteById(Long id) {
+    public int deleteById(int id) {
         String sql = "DELETE FROM tarjeta_mish.contact WHERE idcontact = ?";
-        jdbc.update(sql, id);
+        return jdbc.update(sql, id);
     }
 }
