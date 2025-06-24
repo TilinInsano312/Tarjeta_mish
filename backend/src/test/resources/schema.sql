@@ -1,14 +1,14 @@
 CREATE SCHEMA IF NOT EXISTS tarjeta_mish;
 SET SCHEMA tarjeta_mish;
 
-CREATE TABLE "user" (
+CREATE TABLE if not exists "user" (
                         iduser BIGINT AUTO_INCREMENT PRIMARY KEY,
                         rut VARCHAR(9) NOT NULL UNIQUE,
                         name VARCHAR(60),
                         email VARCHAR(255),
                         pin VARCHAR(4) NOT NULL
 );
-CREATE TABLE card (
+CREATE TABLE if not exists card (
                         idcard BIGINT AUTO_INCREMENT PRIMARY KEY,
                         number VARCHAR(16) NOT NULL UNIQUE,
                         cvv VARCHAR(3) NOT NULL,
@@ -47,7 +47,7 @@ create table if not exists bank
     bank   varchar(60) not null
 );
 
-CREATE TABLE contact (
+CREATE TABLE if not exists contact (
                          idcontact BIGINT AUTO_INCREMENT PRIMARY KEY,
                          name VARCHAR(60) NOT NULL,
                          numbAccount VARCHAR(20) NOT NULL,
