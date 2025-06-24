@@ -26,6 +26,11 @@ public class TransactionService {
     public Optional<TransactionDTO> findById(Long id) {
         return Optional.ofNullable(transactionRepository.findById(id).map(transactionConverter::toTransactionDTO).orElseThrow(TransactionNotFoundException::new));
     }
+    public List<TransactionDTO> findByIdAccount(int idUser) {
+        return transactionRepository.findByIdAccount(idUser).stream()
+                .map(transactionConverter::toTransactionDTO)
+                .toList();
+    }
 
     public int save(TransactionDTO transactionDTO) {
         return transactionRepository.save(transactionConverter.toTransaction(transactionDTO));
