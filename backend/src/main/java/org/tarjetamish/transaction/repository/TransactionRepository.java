@@ -10,6 +10,8 @@ public interface TransactionRepository {
 
     Optional<Transaction> findById(Long id);
 
+    List<Transaction> findByIdAccount(int idUser);
+
     int save(Transaction transaction);
 
     int deleteById(Long id);

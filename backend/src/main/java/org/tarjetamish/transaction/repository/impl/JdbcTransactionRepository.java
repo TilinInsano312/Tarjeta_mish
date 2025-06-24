@@ -27,6 +27,11 @@ public class JdbcTransactionRepository implements TransactionRepository {
         String sql = "SELECT * FROM tarjeta_mish.movement WHERE idmovement = ?";
         return Optional.ofNullable(jdbc.queryForObject(sql, transactionRowMapper, id));
     }
+    @Override
+    public List<Transaction> findByIdAccount(int idAccount) {
+        String sql = "SELECT * FROM tarjeta_mish.movement WHERE idaccount = ?";
+        return jdbc.query(sql, transactionRowMapper, idAccount);
+    }
 
     @Override
     public int save(Transaction transaction) {
