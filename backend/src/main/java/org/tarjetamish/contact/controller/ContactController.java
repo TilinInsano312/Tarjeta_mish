@@ -37,7 +37,7 @@ public class ContactController {
     }
     @PostMapping
     public ResponseEntity<Integer> createContact(@RequestBody ContactDTO contactDTO) {
-        return ResponseEntity.ok(contactService.save(contactDTO));
+        return ResponseEntity.status(201).body(contactService.save(contactDTO));
     }
     @DeleteMapping("/{idcontact}")
     public ResponseEntity<Integer> deleteContact(@PathVariable Long idcontact) {
