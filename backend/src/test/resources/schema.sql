@@ -47,10 +47,23 @@ create table if not exists bank
     bank   varchar(60) not null
 );
 
+CREATE TABLE contact (
+                         idcontact BIGINT AUTO_INCREMENT PRIMARY KEY,
+                         name VARCHAR(60) NOT NULL,
+                         numbAccount VARCHAR(20) NOT NULL,
+                         email VARCHAR(255),
+                         alias VARCHAR(45),
+                         idtypeAccount INTEGER NOT NULL,
+                         idbank INTEGER NOT NULL,
+                         iduser INTEGER NOT NULL,
+                         FOREIGN KEY (idtypeAccount) REFERENCES typeaccount(idtypeAccount) ON DELETE CASCADE ON UPDATE CASCADE,
+                         FOREIGN KEY (idbank) REFERENCES bank(idbank) ON DELETE CASCADE ON UPDATE CASCADE,
+                         FOREIGN KEY (iduser) REFERENCES "user"(iduser) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 create table if not exists movement
 (
-    idmovement         BIGINT AUTO_INCREMENT
-        primary key,
+    idmovement         BIGINT AUTO_INCREMENT primary key,
     amount             integer      not null,
     date               date         not null,
     description        varchar(300) not null,

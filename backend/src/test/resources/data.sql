@@ -25,5 +25,9 @@ INSERT INTO typeMovement (typeMovement) VALUES
                                             ('DEBITO');
 insert into ACCOUNT ( balance, accountnumber, idcard, iduser) values
 (100000, '1234567890', 1, 1);
+insert into contact (name, numbAccount, email, alias, idtypeAccount, idbank, iduser) values
+('pepe', '123123123', 'example@test.com', 'jose',1,1,1 );
+insert into contact (name, numbAccount, email, alias, idtypeAccount, idbank, iduser) values
+    ('alvaro', '111111111', 'example@test.com', 'parra',1,1,1 );
 insert into movement (amount, date, description, rutdestination, accountdestination, rutorigin, accountorigin, idtypemovement, IDBANK, IDACCOUNT, NAME) values
 (50000, '2023-10-01', 'Transferencia a cuenta destino', '987654321', '0987654321', '123456789', '1234567890', 2, 1, 1, 'John Doe');
