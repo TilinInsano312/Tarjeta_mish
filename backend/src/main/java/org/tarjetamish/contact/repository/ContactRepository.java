@@ -1,4 +1,4 @@
-package org.tarjetamish.contact.repository.impl;
+package org.tarjetamish.contact.repository;
 
 
 import org.tarjetamish.contact.model.Contact;

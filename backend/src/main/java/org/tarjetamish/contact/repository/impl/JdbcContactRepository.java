@@ -1,11 +1,11 @@
-package org.tarjetamish.contact.repository;
+package org.tarjetamish.contact.repository.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.tarjetamish.contact.model.Contact;
-import org.tarjetamish.contact.repository.impl.ContactRepository;
 import org.tarjetamish.contact.mapper.impl.ContactRowMapper;
+import org.tarjetamish.contact.repository.ContactRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,7 +41,7 @@ public class JdbcContactRepository implements ContactRepository {
     @Override
     public int save(Contact contact) {
         String sql = "INSERT INTO tarjeta_mish.contact (name, numbaccount, email, alias, idtypeaccount, idbank, iduser) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        return jdbc.update(sql, contactRowMapper, contact.getName(), contact.getAccountNumber(), contact.getEmail(), contact.getAlias(), contact.getTypeAccount().ordinal(), contact.getBank().ordinal(), contact.getIdUser());
+        return jdbc.update(sql, contact.getName(), contact.getAccountNumber(), contact.getEmail(), contact.getAlias(), contact.getTypeAccount().ordinal(), contact.getBank().ordinal(), contact.getIdUser());
     }
 
     @Override

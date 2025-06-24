@@ -7,7 +7,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.tarjetamish.account.model.enums.Bank;
 import org.tarjetamish.account.model.enums.TypeAccount;
 import org.tarjetamish.contact.model.Contact;
-import org.tarjetamish.contact.repository.impl.ContactRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.tarjetamish.contact.dto.ContactDTO;
 import org.tarjetamish.contact.exception.ContactNotFoundException;
 import org.tarjetamish.contact.mapper.IContactConverter;
-import org.tarjetamish.contact.repository.impl.ContactRepository;
+import org.tarjetamish.contact.repository.ContactRepository;
 
 import java.util.List;
 import java.util.Optional;
