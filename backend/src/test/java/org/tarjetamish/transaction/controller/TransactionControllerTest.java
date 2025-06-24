@@ -39,7 +39,7 @@ class TransactionControllerTest {
     }
     @Test
     void testFindById() throws Exception {
-        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/transaction/1")
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/transaction/2")
                 .header("Authorization", "Bearer " + token)
                 .contentType("application/json"))
                 .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isOk());

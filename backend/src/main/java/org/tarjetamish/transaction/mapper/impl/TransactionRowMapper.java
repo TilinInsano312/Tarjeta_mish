@@ -26,7 +26,7 @@ public class TransactionRowMapper implements RowMapper<Transaction> {
         int typeTransaction = rs.getInt("idtypemovement");
         transaction.setTypeTransaction(TypeTransaction.values()[typeTransaction-1]); // Assuming idtypemovement is 1-based index
         int bank = rs.getInt("idbank");
-        transaction.setBank(Bank.values()[typeTransaction]);
+        transaction.setBank(Bank.values()[bank-1]); // Assuming idbank is 1-based index
         transaction.setIdAccount(rs.getLong("idaccount"));
         return transaction;
     }

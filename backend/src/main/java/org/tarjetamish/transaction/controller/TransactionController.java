@@ -39,7 +39,7 @@ public class TransactionController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Integer> deleteTransaction(@PathVariable Long id) {
         return transactionService.findById(id)
-                .map(transaction -> ResponseEntity.ok(transactionService.deleteTransaction(id)))
+                .map(transaction -> ResponseEntity.status(204).body(transactionService.deleteTransaction(id)))
                 .orElse(ResponseEntity.notFound().build());
     }
 }

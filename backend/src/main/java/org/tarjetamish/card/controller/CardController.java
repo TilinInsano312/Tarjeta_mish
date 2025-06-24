@@ -1,11 +1,9 @@
 package org.tarjetamish.card.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.tarjetamish.card.dto.CardDTO;
-import org.tarjetamish.card.model.Card;
 import org.tarjetamish.card.service.CardService;
 import java.util.List;
 
@@ -39,14 +37,19 @@ public class CardController {
         return ResponseEntity.status(201).body(cardService.save(cardDTO));
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteCard(@PathVariable Long id) {
-        cardService.deleteCard(id);
+    public ResponseEntity<Integer> deleteCard(@PathVariable Long id) {
+        if (cardService.findById(id).isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        else{
+            cardService.deleteCard(id);
+        }
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/number/{number}")
-    public ResponseEntity deleteCardByNumber(@PathVariable String number){
-        if (!cardService.findByNumber(number).isPresent()) {
+    public ResponseEntity<Integer> deleteCardByNumber(@PathVariable String number){
+        if (cardService.findByNumber(number).isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
             cardService.deleteCardByNumber(number);

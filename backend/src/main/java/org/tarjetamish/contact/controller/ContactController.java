@@ -19,6 +19,10 @@ public class ContactController {
     public ResponseEntity<List<ContactDTO>> list() {
         return ResponseEntity.ok(contactService.list());
     }
+    @GetMapping("/user/{iduser}")
+    public ResponseEntity<List<ContactDTO>> listByIdUser(@PathVariable int iduser) {
+        return ResponseEntity.ok(contactService.findByIdUser(iduser));
+    }
     @GetMapping("/name/{name}")
     public ResponseEntity<ContactDTO> getContactByName(@PathVariable String name) {
         return contactService.findByName(name)
@@ -31,16 +35,13 @@ public class ContactController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-
-    @PutMapping
-    public ResponseEntity createContact(@RequestBody ContactDTO contactDTO) {
-        return ResponseEntity.ok(contactService.save(contactDTO));
+    @PostMapping
+    public ResponseEntity<Integer> createContact(@RequestBody ContactDTO contactDTO) {
+        return ResponseEntity.status(201).body(contactService.save(contactDTO));
     }
-
-    @DeleteMapping
-    public ResponseEntity deleteContact(@PathVariable Long id) {
-        contactService.deleteContact(id);
-        return ResponseEntity.ok().build();
+    @DeleteMapping("/{idcontact}")
+    public ResponseEntity<Integer> deleteContact(@PathVariable Long idcontact) {
+        return ResponseEntity.ok(contactService.deleteContact(idcontact));
     }
 
 }

@@ -1,4 +1,4 @@
-package org.tarjetamish.contact.repository.impl;
+package org.tarjetamish.contact.repository;
 
 
 import org.tarjetamish.contact.model.Contact;
@@ -9,11 +9,13 @@ import java.util.Optional;
 public interface ContactRepository {
     List<Contact> findAll();
 
+    List<Contact> findById(int id);
+
     Optional<Contact> findByName(String name);
 
     Optional<Contact> findByAlias(String alias);
 
-    Contact save(Contact contact);
+    int save(Contact contact);
 
-    void deleteById(Long id);
+    int deleteById(Long id);
 }
