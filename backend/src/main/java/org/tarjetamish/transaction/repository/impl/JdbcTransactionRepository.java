@@ -37,6 +37,6 @@ public class JdbcTransactionRepository implements TransactionRepository {
     @Override
     public int deleteById(Long id) {
         String sql = "DELETE FROM tarjeta_mish.movement WHERE idmovement = ?";
-        return jdbc.update(sql,transactionRowMapper, id);
+        return jdbc.update(sql, id);
     }
 }

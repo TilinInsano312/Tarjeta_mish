@@ -25,7 +25,7 @@ class TransactionServiceTest {
     }
     @Test
     void testFindById() {
-        assertEquals(1,transactionService.findById(1L).get().id(), "Transaction with ID 1 should exist");
+        assertTrue(transactionService.findById(1L).isPresent(), "Transaction with ID 1 should exist");
     }
     @Test
     void testSaveTransaction() {

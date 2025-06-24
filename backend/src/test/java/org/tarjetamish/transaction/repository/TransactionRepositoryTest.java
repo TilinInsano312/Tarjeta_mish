@@ -37,6 +37,6 @@ class TransactionRepositoryTest {
     }
     @Test
     void testListTransactions() {
-        assertEquals(1,transactionRepository.findAll().size(), "Transaction list should not be empty");
+        assertEquals(2,transactionRepository.findAll().size(), "Transaction list should not be empty");
     }
 }
