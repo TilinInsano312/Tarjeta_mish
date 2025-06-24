@@ -40,8 +40,8 @@ public class JdbcContactRepository implements ContactRepository {
 
     @Override
     public int save(Contact contact) {
-        String sql = "INSERT INTO tarjeta_mish.contact (name, numbaccount, email, alias, typeaccount, bank, iduser) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        return jdbc.update(sql, contactRowMapper, contact.getName(), contact.getAccountNumber(), contact.getEmail(), contact.getAlias(), contact.getTypeAccount().name(), contact.getBank().name(), contact.getIdUser());
+        String sql = "INSERT INTO tarjeta_mish.contact (name, numbaccount, email, alias, idtypeaccount, idbank, iduser) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        return jdbc.update(sql, contactRowMapper, contact.getName(), contact.getAccountNumber(), contact.getEmail(), contact.getAlias(), contact.getTypeAccount().ordinal(), contact.getBank().ordinal(), contact.getIdUser());
     }
 
     @Override
