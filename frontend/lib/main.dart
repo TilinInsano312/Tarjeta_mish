@@ -4,6 +4,7 @@ import 'package:frontend/src/features/auth_pin/presentation/frames/pin_frame.dar
 import 'package:frontend/src/features/dashboard/presentation/frames/home_frame.dart';
 import 'package:frontend/src/features/welcome/presentation/frames/welcome_frame.dart';
 import 'package:frontend/src/domain/services/auth_service.dart';
+import 'package:frontend/src/features/transfers/presentation/frames/contact_list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
           '/welcome': (_) => const WelcomeFrame(),
           '/pin': (_) => const PinFrame(),
           '/home': (_) => const HomeFrame(),
+          '/contacts': (_) => const ContactListFrame(),
         },
       ),
     );
