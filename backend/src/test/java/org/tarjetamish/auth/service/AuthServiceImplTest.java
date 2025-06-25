@@ -29,10 +29,10 @@ class AuthServiceImplTest {
     @Test
     void login_success() {
         String rut = "123456789";
-        int pin = 1234;
+        String pin = "1234";
         User user = new User();
         user.setRut(rut);
-        user.setPin(Integer.toString(pin));
+        user.setPin(pin);
 
         when(userRepository.findByRut(rut)).thenReturn(Optional.of(user));
         when(jwtProvider.generateToken(user)).thenReturn("mockedToken");
@@ -47,13 +47,13 @@ class AuthServiceImplTest {
     @Test
     void login_userNotFound() {
         when(userRepository.findByRut(anyString())).thenReturn(Optional.empty());
-        assertThrows(UserNotFoundException.class, () -> authService.login("invalidRut", 1234));
+        assertThrows(UserNotFoundException.class, () -> authService.login("invalidRut", "1234"));
     }
 
     @Test
     void login_invalidCredentials() {
         String rut = "123456789";
-        int pin = 1234;
+        String pin = "1234";
         User user = new User();
         user.setRut(rut);
         user.setPin("4321");

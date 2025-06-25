@@ -29,10 +29,10 @@ public class AuthServiceImpl implements IAuthService {
     private final RegisterUtils registerUtils;
 
     @Override
-    public String login(String rut, int pin) {
+    public String login(String rut, String pin) {
         User user = userRepository.findByRut(rut)
                 .orElseThrow(() -> new UserNotFoundException(rut));
-        if (String.valueOf(pin).equals(String.valueOf(user.getPin()))) {
+        if (pin.equals(user.getPin())) {
             return jwtProvider.generateToken(user);
         }
         throw new InvalidCredentialsException("Invalid credentials");
