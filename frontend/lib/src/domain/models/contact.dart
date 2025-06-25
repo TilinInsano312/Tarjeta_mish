@@ -7,7 +7,7 @@ class Contact {
   final String alias;
   final String typeAccount;
   final String bank;
-  final String idUser;
+  final int idUser;
   
 
   const Contact({
@@ -26,13 +26,13 @@ class Contact {
     return Contact(
       id: json['id'] as int,
       name: json['name'] as String,
-      fullName: json['full_name'] as String,
-      accountNumber: json['account_number'] as String,
+      fullName: json['full_name'] as String? ?? '',
+      accountNumber: json['accountNumber']?.toString() ?? '',
       email: json['email'] as String,
       alias: json['alias'] as String,
-      typeAccount: json['type_account'] as String,
-      bank: json['bank'] as String,
-      idUser: json['id_user'] as String,
+      typeAccount: json['typeAccount']?.toString() ?? '',
+      bank: json['bank']?.toString() ?? '',
+      idUser: json['idUser'] as int,
     );
   }
 
@@ -40,18 +40,17 @@ class Contact {
     return {
       'id': id,
       'name': name,
-      'full_name': fullName,
-      'account_number': accountNumber,
+      'accountNumber': int.tryParse(accountNumber) ?? 0,
       'email': email,
       'alias': alias,
-      'type_account': typeAccount,
+      'typeAccount': typeAccount,
       'bank': bank,
-      'id_user': idUser,
+      'idUser': idUser,
     };
   }
 
   String get displayName => alias.isNotEmpty ? alias : name;
-  String get displayFullName => fullName.isNotEmpty ? fullName : name;
+  String get displayFullName => name;
 
 
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:frontend/src/domain/appConfig.dart';
 import 'package:frontend/src/domain/models/contact.dart';
 import 'package:frontend/src/domain/services/base_service.dart';
+import 'package:frontend/src/domain/services/user_service.dart';
 
 
 class ContactService extends BaseService {
@@ -10,10 +11,14 @@ class ContactService extends BaseService {
     required super.baseUrl
   });
 
-
   Future<List<Contact>> getContacts() async {
-    try{
-      final response = await authenticatedGet(AppConfig.contactEndpoint);
+    try {
+      // Obtener el ID del usuario autenticado
+      final userService = UserService(baseUrl: baseUrl);
+      final currentUser = await userService.getCurrentUser();
+      
+      // Usar el endpoint específico que filtra por usuario
+      final response = await authenticatedGet('${AppConfig.contactEndpoint}/user/${currentUser.id}');
 
       switch (response.statusCode){
         case 200:
@@ -24,7 +29,7 @@ class ContactService extends BaseService {
         case 401:
           throw Exception('No autorizado');
         case 404:
-          throw Exception('Contactios no encontrados');
+          throw Exception('Contactos no encontrados');
         case 500:
           throw Exception('Error interno del servidor');
         default:

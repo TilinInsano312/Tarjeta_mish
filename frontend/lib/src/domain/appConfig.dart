@@ -8,6 +8,7 @@ class AppConfig {
   static const String transactionEndpoint = '/transaction';
   static const String cardEndpoint = '/card';
   static const String contactEndpoint = '/contact';
+  static const String userEndpoint = '/user';
   static const Duration timeoutDuration = Duration(seconds: 10);
 
 

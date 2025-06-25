@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:frontend/src/core/app_colors.dart';
 import 'package:frontend/src/domain/models/contact.dart';
+import 'package:frontend/src/domain/services/contact_service.dart';
+import 'package:frontend/src/domain/appConfig.dart';
 import 'package:frontend/src/features/widgets/bottom_nav.dart';
 import 'package:frontend/src/features/transfers/presentation/component/contact_searchbar.dart';
 import 'package:frontend/src/features/transfers/presentation/component/contact_item.dart';
@@ -17,15 +19,19 @@ class ContactListFrame extends HookWidget {
     final allContacts = useState<List<Contact>>([]);
     final isLoading = useState<bool>(true);
     final errorMessage = useState<String?>(null);    final currentIndex = useState(1); 
+    
+    final contactService = useMemoized(() => ContactService(
+      baseUrl: AppConfig.baseUrl,
+    ));
+    
     final loadContacts = useCallback(() async {
       try {
         isLoading.value = true;
         errorMessage.value = null;
-
-        await Future.delayed(const Duration(milliseconds: 500));
         
-        allContacts.value = [];
-        filteredContacts.value = [];
+        final contacts = await contactService.getContacts();
+        allContacts.value = contacts;
+        filteredContacts.value = contacts;
       } catch (e) {
         errorMessage.value = 'Error al cargar contactos: $e';
         allContacts.value = [];
@@ -33,7 +39,7 @@ class ContactListFrame extends HookWidget {
       } finally {
         isLoading.value = false;
       }
-    }, []);
+    }, [contactService]);
 
     useEffect(() {
       loadContacts();
