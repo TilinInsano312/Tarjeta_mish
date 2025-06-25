@@ -32,7 +32,7 @@ public class AuthServiceImpl implements IAuthService {
     public String login(String rut, String pin) {
         User user = userRepository.findByRut(rut)
                 .orElseThrow(() -> new UserNotFoundException(rut));
-        if (pin.equals(user.getPin())) {
+        if (passwordEncoder.matches(pin, user.getPin())) {
             return jwtProvider.generateToken(user);
         }
         throw new InvalidCredentialsException("Invalid credentials");
