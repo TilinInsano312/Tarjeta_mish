@@ -26,10 +26,6 @@ public class TransactionController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-    @GetMapping("/account/{idAccount}")
-    public ResponseEntity<List<TransactionDTO>> getTransactionsByAccountId(@PathVariable int idAccount) {
-        return ResponseEntity.ok(transactionService.findByIdAccount(idAccount));
-    }
 
     @PostMapping
     public ResponseEntity<Integer> createTransaction(@RequestBody TransactionDTO transactionDTO) {
