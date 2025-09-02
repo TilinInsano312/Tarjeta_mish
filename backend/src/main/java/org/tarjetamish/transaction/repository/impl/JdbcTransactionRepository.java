@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.tarjetamish.transaction.model.Transaction;
 import org.tarjetamish.transaction.repository.TransactionRepository;
 import org.tarjetamish.transaction.mapper.impl.TransactionRowMapper;
+import org.tarjetamish.common.utils.EnumMappingUtil;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +32,17 @@ public class JdbcTransactionRepository implements TransactionRepository {
     @Override
     public int save(Transaction transaction) {
         String sql = "INSERT INTO tarjeta_mish.movement (amount ,name , date, description, rutdestination, accountdestination, rutorigin, accountorigin, idtypemovement, idbank, idaccount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        return jdbc.update(sql, transaction.getAmount(), transaction.getName(), transaction.getDate(), transaction.getDescription(), transaction.getRutDestination(), transaction.getAccountDestination(), transaction.getRutOrigin(), transaction.getAccountOrigin(), transaction.getTypeTransaction().ordinal() ,transaction.getBank().ordinal(), transaction.getIdAccount());
+
+        // Mapear TypeTransaction a ID de BD (TRANSFERENCIA = 1, TARJETA_DEBITO = 2)
+        int typeTransactionId = transaction.getTypeTransaction().ordinal() + 1;
+
+        // Mapear Bank usando EnumMappingUtil
+        int bankId = EnumMappingUtil.getBankId(transaction.getBank());
+
+        return jdbc.update(sql, transaction.getAmount(), transaction.getName(), transaction.getDate(),
+                transaction.getDescription(), transaction.getRutDestination(), transaction.getAccountDestination(),
+                transaction.getRutOrigin(), transaction.getAccountOrigin(), typeTransactionId, bankId,
+                transaction.getIdAccount());
     }
 
     @Override
