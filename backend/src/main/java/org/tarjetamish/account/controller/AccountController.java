@@ -25,7 +25,7 @@ public class AccountController {
                 .orElse(ResponseEntity.notFound().build());
     }
     @GetMapping("/accountnumber/{accountNumber}")
-    public ResponseEntity<AccountDTO> getAccountByAccountNumber(@PathVariable int accountNumber) {
+    public ResponseEntity<AccountDTO> getAccountByAccountNumber(@PathVariable String accountNumber) {
         return accountService.findByAccountNumber(accountNumber)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

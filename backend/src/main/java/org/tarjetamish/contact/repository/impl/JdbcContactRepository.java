@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.tarjetamish.contact.model.Contact;
 import org.tarjetamish.contact.mapper.impl.ContactRowMapper;
 import org.tarjetamish.contact.repository.ContactRepository;
+import org.tarjetamish.common.utils.EnumMappingUtil;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,32 +17,53 @@ public class JdbcContactRepository implements ContactRepository {
 
     private final JdbcTemplate jdbc;
     private final ContactRowMapper contactRowMapper;
+
     @Override
     public List<Contact> findAll() {
         String sql = "SELECT * FROM tarjeta_mish.contact";
         return jdbc.query(sql, contactRowMapper);
     }
+
     @Override
     public List<Contact> findById(int iduser) {
         String sql = "SELECT * FROM tarjeta_mish.contact WHERE iduser = ?";
         return jdbc.query(sql, contactRowMapper, iduser);
     }
+
     @Override
     public Optional<Contact> findByName(String name) {
         String sql = "SELECT * FROM tarjeta_mish.contact WHERE name = ?";
-        return Optional.ofNullable(jdbc.queryForObject(sql, contactRowMapper, name));
+        try {
+            Contact contact = jdbc.queryForObject(sql, contactRowMapper, name);
+            return Optional.ofNullable(contact);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
     @Override
     public Optional<Contact> findByAlias(String alias) {
         String sql = "SELECT * FROM tarjeta_mish.contact WHERE alias = ?";
-        return Optional.ofNullable(jdbc.queryForObject(sql, contactRowMapper, alias));
+        try {
+            Contact contact = jdbc.queryForObject(sql, contactRowMapper, alias);
+            return Optional.ofNullable(contact);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
     @Override
     public int save(Contact contact) {
         String sql = "INSERT INTO tarjeta_mish.contact (name, numbaccount, email, alias, idtypeaccount, idbank, iduser) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        return jdbc.update(sql, contact.getName(), contact.getAccountNumber(), contact.getEmail(), contact.getAlias(), contact.getTypeAccount().ordinal(), contact.getBank().ordinal(), contact.getIdUser());
+        return jdbc.update(sql,
+            contact.getName(),
+            contact.getAccountNumber(),
+            contact.getEmail(),
+            contact.getAlias(),
+            EnumMappingUtil.getTypeAccountId(contact.getTypeAccount()),
+            EnumMappingUtil.getBankId(contact.getBank()),
+            contact.getIdUser()
+        );
     }
 
     @Override

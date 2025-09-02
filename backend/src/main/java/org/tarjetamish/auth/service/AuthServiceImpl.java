@@ -65,7 +65,8 @@ public class AuthServiceImpl implements IAuthService {
 
         Account account = new Account();
         account.setBalance(0);
-        account.setAccountNumber(registerUtils.generateAccountNumber());
+        String accountNumber = registerUtils.generateAccountNumber();
+        account.setAccountNumber(accountNumber);
         account.setIdUser(user.getId());
         account.setIdCard(card.getId());
         accountRepository.save(account);

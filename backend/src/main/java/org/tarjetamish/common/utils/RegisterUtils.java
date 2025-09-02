@@ -25,8 +25,16 @@ public class RegisterUtils {
         return Date.from(expiry.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 
-    public int generateAccountNumber() {
-        return 100_000_000 + random.nextInt(900_000_000);
+    public String generateAccountNumber() {
+        // Generar un número de cuenta de 16 dígitos como String
+        StringBuilder sb = new StringBuilder();
+        // Primer dígito no puede ser 0
+        sb.append(random.nextInt(9) + 1);
+        // Los siguientes 15 dígitos pueden ser cualquier número
+        for (int i = 0; i < 15; i++) {
+            sb.append(random.nextInt(10));
+        }
+        return sb.toString();
     }
 
     public String generateCvv() {

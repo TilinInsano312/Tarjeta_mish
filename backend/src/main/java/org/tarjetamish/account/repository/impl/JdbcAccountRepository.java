@@ -34,7 +34,7 @@ public class JdbcAccountRepository implements AccountRepository {
     }
 
     @Override
-    public Optional<Account> findByAccountNumber(int accountNumber) {
+    public Optional<Account> findByAccountNumber(String accountNumber) {
         String sql = "SELECT * FROM tarjeta_mish.account WHERE accountnumber = ?";
         return Optional.ofNullable(jdbc.queryForObject(sql, accountRowMapper, accountNumber));
     }
@@ -47,7 +47,7 @@ public class JdbcAccountRepository implements AccountRepository {
         jdbc.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, account.getBalance());
-            ps.setInt(2, account.getAccountNumber());
+            ps.setString(2, account.getAccountNumber());
             ps.setLong(3, account.getIdCard());
             ps.setLong(4, account.getIdUser());
             return ps;

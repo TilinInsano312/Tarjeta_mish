@@ -12,7 +12,7 @@ import lombok.Setter;
 public class Account {
     private Long id;
     private int balance;
-    private int accountNumber;
+    private String accountNumber;
     private Long idCard;
     private Long idUser;
 }

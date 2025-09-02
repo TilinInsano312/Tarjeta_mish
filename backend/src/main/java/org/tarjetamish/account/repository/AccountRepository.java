@@ -11,7 +11,7 @@ public interface AccountRepository {
 
     Optional<Account> findById(Long id);
 
-    Optional<Account> findByAccountNumber(int accountNumber);
+    Optional<Account> findByAccountNumber(String accountNumber);
 
     int save(Account account);
 
