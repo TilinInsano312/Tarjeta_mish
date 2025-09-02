@@ -15,18 +15,19 @@ public class EnumMappingUtil {
     private static final Map<Bank, Integer> BANK_REVERSE_MAP = new HashMap<>();
 
     static {
-        // Inicializar mapeo de tipos de cuenta (basado en el orden en data.sql)
+        // Inicializar mapeo de tipos de cuenta (basado en los IDs reales en data.sql)
         TYPE_ACCOUNT_MAP.put(1, TypeAccount.CUENTA_CORRIENTE);
         TYPE_ACCOUNT_MAP.put(2, TypeAccount.CUENTA_VISTA);
         TYPE_ACCOUNT_MAP.put(3, TypeAccount.CUENTA_DE_AHORRO);
         TYPE_ACCOUNT_MAP.put(4, TypeAccount.CUENTA_RUT);
+        // Nota: TARJETA_DE_CREDITO (ID 5) no está en el enum, se omite por ahora
 
         // Inicializar mapeo reverso
         for (Map.Entry<Integer, TypeAccount> entry : TYPE_ACCOUNT_MAP.entrySet()) {
             TYPE_ACCOUNT_REVERSE_MAP.put(entry.getValue(), entry.getKey());
         }
 
-        // Inicializar mapeo de bancos (basado en el orden en data.sql)
+        // Inicializar mapeo de bancos (basado en data.sql - IDs 1-10)
         BANK_MAP.put(1, Bank.BANCO_DE_CHILE);
         BANK_MAP.put(2, Bank.BANCO_SANTANDER);
         BANK_MAP.put(3, Bank.BANCO_ESTADO);

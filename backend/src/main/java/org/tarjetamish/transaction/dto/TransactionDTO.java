@@ -1,6 +1,4 @@
 package org.tarjetamish.transaction.dto;
-import org.tarjetamish.account.model.enums.Bank;
-import org.tarjetamish.transaction.model.enums.TypeTransaction;
 
 import java.util.Date;
 public record TransactionDTO(Long id,
@@ -12,8 +10,8 @@ public record TransactionDTO(Long id,
                              String accountDestination,
                              String rutOrigin,
                              String accountOrigin,
-                             TypeTransaction typeTransaction,
-                             Bank bank,
+                             Integer typeTransaction,
+                             Integer bank,
                              Long idAccount) {
 
 }

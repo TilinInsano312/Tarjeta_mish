@@ -33,6 +33,11 @@ public class JdbcTransactionRepository implements TransactionRepository {
     public int save(Transaction transaction) {
         String sql = "INSERT INTO tarjeta_mish.movement (amount ,name , date, description, rutdestination, accountdestination, rutorigin, accountorigin, idtypemovement, idbank, idaccount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+        // Validar que typeTransaction no sea null
+        if (transaction.getTypeTransaction() == null) {
+            throw new IllegalArgumentException("El tipo de transacción no puede ser null");
+        }
+
         // Mapear TypeTransaction a ID de BD (TRANSFERENCIA = 1, TARJETA_DEBITO = 2)
         int typeTransactionId = transaction.getTypeTransaction().ordinal() + 1;
 

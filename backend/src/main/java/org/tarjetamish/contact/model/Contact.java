@@ -15,7 +15,7 @@ import org.tarjetamish.account.model.enums.TypeAccount;
 public class Contact {
     private Long id;
     private String name;
-    private int accountNumber;
+    private String accountNumber;
     private String email;
     private String alias;
     private TypeAccount typeAccount;

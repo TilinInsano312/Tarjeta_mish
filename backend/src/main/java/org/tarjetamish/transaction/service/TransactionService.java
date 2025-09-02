@@ -10,7 +10,6 @@ import org.tarjetamish.transaction.exception.TransactionNotFoundException;
 import org.tarjetamish.transaction.exception.TransferException;
 import org.tarjetamish.transaction.mapper.ITransactionConverter;
 import org.tarjetamish.transaction.repository.TransactionRepository;
-import org.tarjetamish.transaction.model.enums.TypeTransaction;
 
 import java.util.Date;
 import java.util.List;
@@ -95,7 +94,7 @@ public class TransactionService {
                 transactionDTO.accountDestination(),
                 transactionDTO.rutOrigin(),
                 transactionDTO.accountOrigin(),
-                TypeTransaction.TRANSFERENCIA,
+                1, // TRANSFERENCIA = ID 1
                 transactionDTO.bank(),
                 originAccount.get().id()
             );
@@ -148,7 +147,7 @@ public class TransactionService {
             transactionDTO.accountDestination(),
             transactionDTO.rutOrigin(),
             transactionDTO.accountOrigin(),
-            TypeTransaction.TRANSFERENCIA,
+            1, // TRANSFERENCIA = ID 1
             transactionDTO.bank(),
             originAccount.get().id()
         );
