@@ -62,7 +62,7 @@ class ContactItem extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          contact.displayName,
+          contact.alias,
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
@@ -71,7 +71,7 @@ class ContactItem extends HookWidget {
         ),
         const SizedBox(height: 2),
         Text(
-          contact.displayFullName,
+          contact.name,
           style: const TextStyle(
             fontSize: 14,
             color: Color(0xFF666666),

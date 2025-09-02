@@ -7,6 +7,9 @@ import 'package:frontend/src/features/welcome/presentation/frames/welcome_frame.
 import 'package:frontend/src/features/register/presentation/frames/register_frame.dart';
 import 'package:frontend/src/domain/services/auth_service.dart';
 import 'package:frontend/src/features/transfers/presentation/frames/contact_list.dart';
+import 'package:frontend/src/features/transfers/presentation/frames/add_contact_frame.dart';
+import 'package:frontend/src/features/transfers/presentation/frames/transfer_frame.dart';
+import 'package:frontend/src/domain/models/contact.dart';
 import 'package:frontend/src/core/app_colors.dart';
 
 void main() {
@@ -21,7 +24,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<AuthService>(
-          create: (_) => AuthService(),
+          create: (_) => AuthService()
         ),
       ],
       child: MaterialApp(
@@ -36,6 +39,16 @@ class MyApp extends StatelessWidget {
           '/pin': (_) => const PinFrame(),
           '/home': (_) => const HomeFrame(),
           '/contacts': (_) => const ContactListFrame(),
+          '/add-contact': (_) => const AddContactFrame(),
+        },
+        onGenerateRoute: (settings) {
+          if (settings.name == '/transfer') {
+            final contact = settings.arguments as Contact?;
+            return MaterialPageRoute(
+              builder: (context) => TransferFrame(preselectedContact: contact),
+            );
+          }
+          return null;
         },
       ),
     );

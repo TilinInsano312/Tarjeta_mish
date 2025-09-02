@@ -51,6 +51,12 @@ class HomeFrame extends HookWidget {
             ),
             actions: [
               IconButton(
+                icon: const Icon(Icons.send, size: 28),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/transfer');
+                },
+              ),
+              IconButton(
                 icon: const Icon(Icons.person_sharp, size: 40),
                 onPressed: () {
                   
