@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:frontend/src/core/app_colors.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:frontend/src/domain/models/movement.dart';
-import 'package:frontend/src/domain/repository/movementRepository.dart';
+import 'package:frontend/src/domain/services/movement_service.dart';
+import 'package:frontend/src/domain/appConfig.dart';
 
 class MovementsCard extends HookWidget {
   const MovementsCard({Key? key}) : super(key: key);
@@ -10,14 +11,13 @@ class MovementsCard extends HookWidget {
   @override
   Widget build(BuildContext context) {
     
-    final repository = useMemoized(() => MovementRepository(
-        baseUrl: 'https://api.example.com', // Change this with api url
-        token: 'token' //Change with token
+    final repository = useMemoized(() => MovementService(
+        baseUrl: AppConfig.baseUrl,
      ));
     
 
     final snapshot = useFuture(
-      useMemoized(() => repository.fetchMovements(), [repository])
+      useMemoized(() => repository.getMovements(), [repository])
     );
 
     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -35,7 +35,7 @@ class MovementsCard extends HookWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
             child: Text(
-              'Error al cargar la informacion',
+              'Error al cargar la informacion: ${snapshot.error}',
               style: TextStyle(
                 color: AppColors.errorColor,
                 fontSize: 16,
@@ -49,8 +49,7 @@ class MovementsCard extends HookWidget {
         ],
       );
     }
-    final movements = snapshot.hasData;
-    return _buildCard(context, movements as List<Movement>);
+    return _buildCard(context, snapshot.data ?? []);
     }
     
   Widget _buildCard(BuildContext context, List<Movement> movements) {
@@ -113,7 +112,7 @@ class MovementsCard extends HookWidget {
                             ),
                             Text(
                               '${isNegative ? '-' : '+'} \$ ${movement.amount.toString()}',
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                                 color: isNegative ? AppColors.errorColor : AppColors.successColor,
                                 fontWeight: FontWeight.bold,
                               ),

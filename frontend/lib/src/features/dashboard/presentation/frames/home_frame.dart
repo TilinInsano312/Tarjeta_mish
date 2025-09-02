@@ -1,4 +1,3 @@
-
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/src/core/app_colors.dart';
@@ -14,63 +13,79 @@ class HomeFrame extends HookWidget {
   Widget build(BuildContext context) {
     final currentIndex = useState(0);
 
-
-final pages = [
-  Container(
-    decoration: const BoxDecoration(
-      gradient: LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          AppColors.primary,             
-          AppColors.primaryOpacity50,    
-          AppColors.whiteBackground,     
-        ],
-      ),
-    ),
-    child: ListView(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      children: const [
-        BalanceCard(),
-        SizedBox(height: 16),
-        MovementsCard(),
-        SizedBox(height: 16),
-        CardMishInfo(),
-      ],
-    ),
-  ),
-];
+    void handleNavigation(int index) {
+      print('HomeFrame: Navegando a índice $index');
+      
+      switch (index) {
+        case 0:
+        
+          break;
+        case 1:
+          print('Navegando a /contacts');
+          Navigator.pushNamed(context, '/contacts');
+          break;
+        case 2:
+          print('Función Libreta pendiente');
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Función de Libreta próximamente'),
+              backgroundColor: AppColors.primary,
+            ),
+          );
+          break;
+      }
+    }
 
     return Scaffold(
-      backgroundColor: AppColors.whiteBackground ,
+      backgroundColor: AppColors.whiteBackground,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: Container(
-          decoration: BoxDecoration(
-          ),
           child: AppBar(
             backgroundColor: AppColors.primary,
             leading: IconButton(
-              icon: const Icon(Icons.menu, size:40),
+              icon: const Icon(Icons.menu, size: 40),
               onPressed: () {
-                // Lógica de menú
+                
               },
             ),
             actions: [
               IconButton(
                 icon: const Icon(Icons.person_sharp, size: 40),
                 onPressed: () {
-                  // Lógica perfil
+                  
                 },
               ),
             ],
           ),
         ),
       ),
-      body: pages[currentIndex.value],
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              AppColors.primary,             
+              AppColors.primaryOpacity50,    
+              AppColors.whiteBackground,     
+            ],
+          ),
+        ),
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          children: const [
+            BalanceCard(),
+            SizedBox(height: 16),
+            MovementsCard(),
+            SizedBox(height: 16),
+            CardMishInfo(),
+          ],
+        ),
+      ),
       bottomNavigationBar: BottomNav(
-        index: currentIndex.value,
-        onTap: (index) => currentIndex.value = index,
+        index: currentIndex.value, 
+        onTap: handleNavigation, 
       ),
     );
   }

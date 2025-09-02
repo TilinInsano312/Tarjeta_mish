@@ -1,0 +1,35 @@
+import 'package:frontend/src/domain/appConfig.dart';
+import 'package:frontend/src/domain/models/card.dart' as domain_card;
+import 'package:frontend/src/domain/services/base_service.dart';
+import 'dart:convert';
+
+class CardService extends BaseService {
+  
+  CardService({
+    required String baseUrl,
+  }) : super(baseUrl: baseUrl);
+
+  Future<domain_card.Card> getCard() async {
+    try {
+      
+      final response = await authenticatedGet('${AppConfig.cardEndpoint}/26');
+      
+      switch (response.statusCode) {
+        case 200:
+          final Map<String, dynamic> jsonResponse = json.decode(response.body);
+          return domain_card.Card.fromJson(jsonResponse);
+        case 400:
+          throw Exception('Error de solicitud incorrecta');
+        case 401:
+          throw Exception('No autorizado');
+        case 500:
+          throw Exception('Error interno del servidor');
+        default:
+          throw Exception('Error desconocido');
+      }
+    } catch (e) {
+      throw Exception('Error al obtener las tarjetas: $e');
+    }
+  }
+  
+}
