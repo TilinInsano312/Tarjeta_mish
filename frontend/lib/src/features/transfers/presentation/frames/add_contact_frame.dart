@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'dart:convert';
 import 'package:frontend/src/core/app_colors.dart';
 import 'package:frontend/src/domain/models/contact.dart';
 import 'package:frontend/src/domain/models/bank.dart';
 import 'package:frontend/src/domain/models/type_account.dart';
 import 'package:frontend/src/domain/services/contact_service.dart';
 import 'package:frontend/src/domain/services/user_service.dart';
+import 'package:frontend/src/domain/services/base_service.dart';
 import 'package:frontend/src/domain/appConfig.dart';
 
 class AddContactFrame extends HookWidget {
@@ -18,12 +20,47 @@ class AddContactFrame extends HookWidget {
     final accountNumberController = useTextEditingController();
     final aliasController = useTextEditingController();
     final rutController = useTextEditingController();
+    final amountController = useTextEditingController();
+    final messageController = useTextEditingController();
+    
+    // Agregar listener para debug del amountController
+    useEffect(() {
+      void listener() {
+        // Comentado para producción
+        // print('AMOUNT CONTROLLER CHANGED: "${amountController.text}" (length: ${amountController.text.length})');
+      }
+      amountController.addListener(listener);
+      return () => amountController.removeListener(listener);
+    }, [amountController]);
     
     final selectedBank = useState<Bank?>(null);
     final selectedAccountType = useState<TypeAccount?>(null);
     final isLoading = useState(false);
     final isAliasChecking = useState(false);
     final isAliasAvailable = useState<bool?>(null);
+    final isTransferring = useState(false);
+    
+    // Estado para forzar reconstrucción cuando cambien los campos
+    final formVersion = useState(0);
+    
+    // Listener para actualizar el estado cuando cambien los campos importantes
+    useEffect(() {
+      void updateForm() {
+        formVersion.value = formVersion.value + 1;
+      }
+      
+      nameController.addListener(updateForm);
+      rutController.addListener(updateForm);
+      accountNumberController.addListener(updateForm);
+      amountController.addListener(updateForm);
+      
+      return () {
+        nameController.removeListener(updateForm);
+        rutController.removeListener(updateForm);
+        accountNumberController.removeListener(updateForm);
+        amountController.removeListener(updateForm);
+      };
+    }, [nameController, rutController, accountNumberController, amountController]);
 
     final contactService = useMemoized(() => ContactService(baseUrl: AppConfig.baseUrl));
     final userService = useMemoized(() => UserService(baseUrl: AppConfig.baseUrl));
@@ -63,7 +100,9 @@ class AddContactFrame extends HookWidget {
 
     bool isValidRut(String rut) {
       // Validación básica de formato RUT chileno (xxxxxxxx-x)
-      return RegExp(r'^\d{7,8}-[\dkK]$').hasMatch(rut);
+      final isValid = RegExp(r'^\d{7,8}-[\dkK]$').hasMatch(rut.trim());
+      print('Validando RUT: "$rut" -> $isValid');
+      return isValid;
     }
 
     bool isFormValid() {
@@ -111,6 +150,144 @@ class AddContactFrame extends HookWidget {
         showMessage('Error al crear contacto: $e', isError: true);
       } finally {
         isLoading.value = false;
+      }
+    }
+
+    bool isFormValidForTransfer() {
+      final name = nameController.text.trim().isNotEmpty;
+      final rut = rutController.text.trim().isNotEmpty;
+      final account = accountNumberController.text.trim().isNotEmpty;
+      final amount = amountController.text.trim().isNotEmpty;
+      final bankSelected = selectedBank.value != null;
+      final typeSelected = selectedAccountType.value != null;
+      
+      return name && rut && account && amount && bankSelected && typeSelected;
+    }
+
+    // Función para asegurar que el RUT tenga el formato correcto con guión
+    String ensureRutFormat(String rut) {
+      final cleaned = rut.replaceAll('-', '').trim();
+      if (cleaned.length >= 8) {
+        final body = cleaned.substring(0, cleaned.length - 1);
+        final dv = cleaned.substring(cleaned.length - 1);
+        return '$body-$dv';
+      }
+      return rut; // Si no se puede formatear, devolver original
+    }
+
+    String formatCurrency(int amount) {
+      return amount.toString().replaceAllMapped(
+        RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+        (Match m) => '${m[1]},',
+      );
+    }
+
+    Future<void> handleDirectTransfer() async {
+      if (!isFormValidForTransfer()) {
+        showMessage('Por favor completa todos los campos necesarios para la transferencia', isError: true);
+        return;
+      }
+
+      // Limpiar el monto: quitar $, espacios y comas para obtener solo números
+      final cleanAmount = amountController.text.replaceAll('\$', '').replaceAll(' ', '').replaceAll(',', '');
+      final amount = int.tryParse(cleanAmount) ?? 0;
+      
+      if (amount <= 0) {
+        showMessage('El monto debe ser mayor a 0', isError: true);
+        return;
+      }
+      
+      // Mostrar confirmación
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Confirmar Transferencia'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Destinatario: ${nameController.text.trim()}'),
+                Text('RUT: ${rutController.text.trim()}'),
+                Text('Banco: ${selectedBank.value!.displayName}'),
+                Text('Cuenta: ${accountNumberController.text.trim()}'),
+                Text('Monto: \$${formatCurrency(amount)}'),
+                if (messageController.text.isNotEmpty)
+                  Text('Mensaje: ${messageController.text}'),
+                const SizedBox(height: 16),
+                const Text(
+                  '¿Confirmas esta transferencia?',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: const Text('Cancelar'),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                ),
+                child: Text(
+                  'Confirmar',
+                  style: TextStyle(color: AppColors.neutralWhite),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+
+      if (confirmed != true) return;
+
+      isTransferring.value = true;
+      try {
+        final currentUser = await userService.getCurrentUser();
+        
+        // Asegurar formato exacto de RUTs
+        final rutDestinationClean = rutController.text.trim().replaceAll('-', '').replaceAll(' ', '');
+        final rutOriginFormatted = ensureRutFormat(currentUser.rut);
+        
+        // Crear el JSON de transferencia directa según el nuevo formato del backend
+        final transactionData = {
+          'id': null,
+          'amount': amount,
+          'name': nameController.text.trim(),
+          'date': null,
+          'description': messageController.text.isNotEmpty 
+              ? messageController.text 
+              : 'Transferencia a ${nameController.text.trim()}',
+          'rutDestination': rutDestinationClean, // SIN guión - limpio
+          'accountDestination': accountNumberController.text.trim(),
+          'rutOrigin': rutOriginFormatted, // CON guión
+          'accountOrigin': "8152003680781377", 
+          'typeTransaction': 1, 
+          'bank': selectedBank.value!.id, 
+          'idAccount': 11 
+        };
+
+        print('=== JSON QUE SE VA A ENVIAR ===');
+        print('rutDestination CLEAN: "$rutDestinationClean"');
+        print('rutOrigin FORMATTED: "$rutOriginFormatted"');
+        print('JSON: $transactionData');
+        print('===============================');
+
+        // Crear servicio de transacciones
+        final transactionService = _TransactionService(baseUrl: AppConfig.baseUrl);
+        await transactionService.createTransaction(transactionData);
+        
+        showMessage('Transferencia realizada exitosamente', isError: false);
+        
+        if (context.mounted) {
+          Navigator.pop(context, true);
+        }
+      } catch (e) {
+        showMessage('Error al procesar la transferencia: $e', isError: true);
+      } finally {
+        isTransferring.value = false;
       }
     }
 
@@ -392,10 +569,68 @@ class AddContactFrame extends HookWidget {
               ),
             ),
             
+            const SizedBox(height: 20),
+            
+            Text(
+              'Monto (opcional para transferencia directa)',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: AppColors.blackLetter,
+              ),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              controller: amountController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                hintText: '\$ 10000 (solo números)',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: Colors.grey.shade300),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: AppColors.primary),
+                ),
+              ),
+              // Quitamos el onChanged problemático por ahora
+            ),
+            
+            const SizedBox(height: 20),
+            
+            Text(
+              'Mensaje (opcional)',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: AppColors.blackLetter,
+              ),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              controller: messageController,
+              maxLines: 2,
+              decoration: InputDecoration(
+                hintText: 'Mensaje para la transferencia',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: Colors.grey.shade300),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: AppColors.primary),
+                ),
+              ),
+            ),
+            
             const SizedBox(height: 40),
             
+            // Botón Transferir Ahora
             ElevatedButton(
-              onPressed: isLoading.value || !isFormValid() ? null : handleCreateContact,
+              onPressed: isTransferring.value || !isFormValidForTransfer() 
+                  ? null 
+                  : handleDirectTransfer,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 padding: const EdgeInsets.symmetric(vertical: 16),
@@ -403,15 +638,42 @@ class AddContactFrame extends HookWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: isLoading.value
+              child: isTransferring.value
                   ? CircularProgressIndicator(
                       color: AppColors.neutralWhite,
                       strokeWidth: 2,
                     )
                   : Text(
-                      'Continuar',
+                      'Transferir Ahora (v${formVersion.value})',
                       style: TextStyle(
                         color: AppColors.neutralWhite,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+            ),
+            
+            const SizedBox(height: 12),
+            
+            // Botón Guardar Contacto
+            OutlinedButton(
+              onPressed: isLoading.value || !isFormValid() ? null : handleCreateContact,
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                side: BorderSide(color: AppColors.primary),
+              ),
+              child: isLoading.value
+                  ? CircularProgressIndicator(
+                      color: AppColors.primary,
+                      strokeWidth: 2,
+                    )
+                  : Text(
+                      'Solo Guardar Contacto',
+                      style: TextStyle(
+                        color: AppColors.primary,
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                       ),
@@ -421,7 +683,7 @@ class AddContactFrame extends HookWidget {
             const SizedBox(height: 16),
             
             OutlinedButton(
-              onPressed: isLoading.value ? null : () => Navigator.pop(context),
+              onPressed: (isLoading.value || isTransferring.value) ? null : () => Navigator.pop(context),
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(
@@ -442,5 +704,44 @@ class AddContactFrame extends HookWidget {
         ),
       ),
     );
+  }
+}
+
+class _TransactionService extends BaseService {
+  _TransactionService({required String baseUrl}) : super(baseUrl: baseUrl);
+
+  Future<void> createTransaction(Map<String, dynamic> transactionData) async {
+    try {
+      print('Creating transaction: ${jsonEncode(transactionData)}');
+      
+      final response = await authenticatedPost(
+        '/transaction', // Solo el endpoint, sin /api porque baseUrl ya lo incluye
+        jsonEncode(transactionData),
+      );
+      
+      print('Transaction response: Status ${response.statusCode}, Body: ${response.body}');
+      
+      switch (response.statusCode) {
+        case 200:
+        case 201:
+          // Transacción exitosa
+          break;
+        case 400:
+          throw Exception('Datos de transacción inválidos');
+        case 401:
+          throw Exception('No autorizado');
+        case 403:
+          throw Exception('Fondos insuficientes');
+        case 404:
+          throw Exception('Cuenta no encontrada');
+        case 500:
+          throw Exception('Error interno del servidor');
+        default:
+          throw Exception('Error en la transferencia: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error in createTransaction: $e');
+      throw Exception('Error al crear transacción: $e');
+    }
   }
 }
