@@ -25,9 +25,6 @@ class Contact {
     required this.idUser
   });
 
-  String get displayName => alias;
-  String get displayFullName => name;
-
  factory Contact.fromJson(Map<String, dynamic> json) {
     return Contact(
       id: json['id'] != null ? (json['id'] as num).toInt() : null,
