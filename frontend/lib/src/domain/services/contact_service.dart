@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:frontend/src/domain/appConfig.dart';
 import 'package:frontend/src/domain/models/contact.dart';
 import 'package:frontend/src/domain/services/base_service.dart';
+import 'package:frontend/src/domain/services/user_service.dart';
 
 
 class ContactService extends BaseService {
@@ -12,10 +13,13 @@ class ContactService extends BaseService {
 
 
   Future<List<Contact>> getContacts() async {
-    try{
-      final response = await authenticatedGet(AppConfig.contactEndpoint);
-
-      print('GetContacts response: Status ${response.statusCode}, Body: ${response.body}');
+    try {
+      // Obtener el ID del usuario autenticado
+      final userService = UserService(baseUrl: baseUrl);
+      final currentUser = await userService.getCurrentUser();
+      
+      // Usar el endpoint específico que filtra por usuario
+      final response = await authenticatedGet('${AppConfig.contactEndpoint}/user/${currentUser.id}');
 
       switch (response.statusCode){
         case 200:
@@ -33,12 +37,7 @@ class ContactService extends BaseService {
         case 401:
           throw Exception('No autorizado');
         case 404:
-<<<<<<< Updated upstream
-          throw Exception('Contactios no encontrados');
-=======
-          // Si no hay contactos, retorna lista vacía en lugar de error
-          return [];
->>>>>>> Stashed changes
+          return []; // Si no hay contactos, retorna lista vacía en lugar de error
         case 500:
           throw Exception('Error interno del servidor');
         default:
@@ -47,23 +46,6 @@ class ContactService extends BaseService {
     }catch (e){
       print('Error in getContacts: $e');
       throw Exception('Error al obtener los contactos: $e');
-    }
-  }
-
-  Future<Contact> getContactByAlias(String alias) async {
-    try {
-      final response = await authenticatedGet('${AppConfig.contactEndpoint}/alias/$alias');
-      
-      switch (response.statusCode) {
-        case 200:
-          return Contact.fromJson(jsonDecode(response.body));
-        case 404:
-          throw Exception('Contacto no encontrado');
-        default:
-          throw Exception('Error al buscar contacto: ${response.statusCode}');
-      }
-    } catch (e) {
-      throw Exception('Error al buscar contacto: $e');
     }
   }
 
@@ -94,9 +76,6 @@ class ContactService extends BaseService {
 
   Future<Contact> createContact(Contact contact) async {
     try {
-      // Validate contact data before sending to backend
-      _validateContactData(contact);
-      
       print('Creating contact: ${jsonEncode(contact.toJson())}');
       
       final response = await authenticatedPost(
@@ -110,38 +89,25 @@ class ContactService extends BaseService {
         case 200:
         case 201:
           try {
-            // Try to parse as integer first (expected response)
+            // Backend retorna solo el ID como entero
             final contactId = int.parse(response.body.trim());
             
-            // Return the contact with the new ID
+            // Retornar el contacto con el nuevo ID
             return Contact(
               id: contactId,
               name: contact.name,
               accountNumber: contact.accountNumber,
               email: contact.email,
               alias: contact.alias,
+              rut: contact.rut,
               typeAccount: contact.typeAccount,
               bank: contact.bank,
               idUser: contact.idUser,
             );
           } catch (parseError) {
-            // If parsing as integer fails, try as JSON object
-            try {
-              final jsonResponse = jsonDecode(response.body);
-              return Contact.fromJson(jsonResponse);
-            } catch (jsonError) {
-              print('Error parsing response as int or JSON: $parseError, $jsonError');
-              // Fallback: return contact without ID
-              return Contact(
-                name: contact.name,
-                accountNumber: contact.accountNumber,
-                email: contact.email,
-                alias: contact.alias,
-                typeAccount: contact.typeAccount,
-                bank: contact.bank,
-                idUser: contact.idUser,
-              );
-            }
+            print('Error parsing response as int: $parseError');
+            // Fallback: retornar contacto sin ID
+            return contact;
           }
         case 400:
           throw Exception('Datos de contacto inválidos');

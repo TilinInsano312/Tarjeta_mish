@@ -7,15 +7,10 @@ class Contact {
   final int accountNumber;
   final String email;
   final String alias;
-<<<<<<< Updated upstream
-  final String typeAccount;
-  final String bank;
-  final String idUser;
-=======
+  final String rut; // Necesario para transferencias
   final TypeAccount typeAccount;
   final Bank bank;
   final int idUser;
->>>>>>> Stashed changes
   
 
   const Contact({
@@ -24,6 +19,7 @@ class Contact {
     required this.accountNumber,
     required this.email,
     required this.alias,
+    required this.rut,
     required this.typeAccount,
     required this.bank,
     required this.idUser
@@ -34,24 +30,15 @@ class Contact {
 
  factory Contact.fromJson(Map<String, dynamic> json) {
     return Contact(
-      id: json['id'] != null ? (json['id'] as num).toInt() : null, // Handle Long from backend
+      id: json['id'] != null ? (json['id'] as num).toInt() : null,
       name: json['name'] as String,
-<<<<<<< Updated upstream
-      fullName: json['full_name'] as String,
-      accountNumber: json['account_number'] as String,
-      email: json['email'] as String,
-      alias: json['alias'] as String,
-      typeAccount: json['type_account'] as String,
-      bank: json['bank'] as String,
-      idUser: json['id_user'] as String,
-=======
       accountNumber: (json['accountNumber'] as num).toInt(),
       email: json['email'] as String,
       alias: json['alias'] as String,
+      rut: json['rut'] as String? ?? '', // Vacío si no viene del backend
       typeAccount: TypeAccount.fromString(json['typeAccount'] as String),
       bank: Bank.fromString(json['bank'] as String),
-      idUser: (json['idUser'] as num).toInt(), // Handle Long from backend
->>>>>>> Stashed changes
+      idUser: (json['idUser'] as num).toInt(),
     );
   }
 
@@ -59,22 +46,6 @@ class Contact {
     return {
       if (id != null) 'id': id,
       'name': name,
-<<<<<<< Updated upstream
-      'full_name': fullName,
-      'account_number': accountNumber,
-      'email': email,
-      'alias': alias,
-      'type_account': typeAccount,
-      'bank': bank,
-      'id_user': idUser,
-    };
-  }
-
-  String get displayName => alias.isNotEmpty ? alias : name;
-  String get displayFullName => fullName.isNotEmpty ? fullName : name;
-
-
-=======
       'accountNumber': accountNumber,
       'email': email,
       'alias': alias,
@@ -83,5 +54,42 @@ class Contact {
       'idUser': idUser,
     };
   }
->>>>>>> Stashed changes
+
+  String get displayName => alias.isNotEmpty ? alias : name;
+  String get displayFullName => name; // Solo usar name ya que fullName no existe en backend
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is Contact &&
+        other.id == id &&
+        other.name == name &&
+        other.accountNumber == accountNumber &&
+        other.email == email &&
+        other.alias == alias &&
+        other.rut == rut &&
+        other.typeAccount == typeAccount &&
+        other.bank == bank &&
+        other.idUser == idUser;
+  }
+
+  @override
+  int get hashCode {
+    return Object.hash(
+      id,
+      name,
+      accountNumber,
+      email,
+      alias,
+      rut,
+      typeAccount,
+      bank,
+      idUser,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'Contact(id: $id, name: $name, alias: $alias, rut: $rut, accountNumber: $accountNumber)';
+  }
 }
