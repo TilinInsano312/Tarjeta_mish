@@ -1,10 +1,15 @@
 {
-  "buildCommand": "flutter build web",
+  "buildCommand": "bash build.sh",
   "outputDirectory": "build/web",
+  "ignoreCommand": "git check-ignore $VERCEL_FILE_PATH",
+  "installCommand": "echo 'Skipping npm install - Flutter project'",
   "rewrites": [
     {
       "source": "/(.*)",
       "destination": "/index.html"
     }
-  ]
+  ],
+  "env": {
+    "FLUTTER_SKIP_DOWNLOAD_TOOLS": "true"
+  }
 }

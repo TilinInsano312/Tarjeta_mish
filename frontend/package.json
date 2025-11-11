@@ -1,0 +1,14 @@
+{
+  "name": "tarjeta-mish-web",
+  "version": "1.0.0",
+  "description": "Tarjeta Mish - Flutter Web Application",
+  "scripts": {
+    "build": "flutter build web --release",
+    "dev": "flutter run -d web-server",
+    "serve": "flutter run -d web"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": ["flutter", "web", "tarjeta-mish"]
+}

@@ -1,0 +1,70 @@
+# Version control
+.git
+.gitignore
+.gitlab-ci.yml
+.github
+
+# Flutter build artifacts
+.dart_tool
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.fvm/
+fvm_user_choice.json
+
+# Android
+android/local.properties
+android/.gradle/
+android/build/
+android/**/build/
+
+# iOS
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Pods/
+
+# macOS
+macos/Flutter/Flutter-Debug.xcconfig
+macos/Flutter/Flutter-Release.xcconfig
+macos/Flutter/GeneratedPluginRegistrant.swift
+macos/Pods/
+
+# Windows
+windows/flutter/
+windows/runner/Release/
+
+# Linux
+linux/flutter/
+build/linux/
+
+# Coverage
+coverage/
+
+# Miscellaneous
+*.class
+*.lock
+*.log
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# IDEs
+.idea/
+.vscode/
+.vs/
+*.swp
+*.swo
+*.iml
+*.xcworkspace
+*.xcodeproj/xcuserdata/
+
+# Documentation
+/doc/api/
+.dart_tool/
+
+# Development
+.env
+.env.local
+local.properties
